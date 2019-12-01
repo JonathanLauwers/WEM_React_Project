@@ -4,6 +4,7 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { RoomList } from './src/pages/RoomList';
 import { RoomDetail } from './src/pages/RoomDetail';
+import { AssetDetail } from './src/pages/AssetDetail';
 
 export default function App() {
 
@@ -13,6 +14,9 @@ export default function App() {
     },
     Room: {
       screen: RoomDetail
+    },
+    Asset: {
+      screen: AssetDetail
     }
   });
 

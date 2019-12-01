@@ -1,25 +1,26 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { CircledImage } from '../CircledImage';
-import { styles } from './RoomPreview.styles';
+import { styles } from './RoomListItem.styles';
+import { H1 } from '../TextHeaders';
+import { Room } from '../../data/room/room';
 
 type RoomPreview = {
   id: string,
   name: string,
   happinessScore: number,
-  navigateRoom: (id: string) => void;
+  navigateRoom: (room: Room) => void;
 
 }
 
-export const RoomPreview: React.FunctionComponent<RoomPreview> = (room): JSX.Element => {
+export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.Element => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => room.navigateRoom(room.id)}>
+      <TouchableOpacity onPress={() => room.navigateRoom(room)}>
         <View
           style={styles.header}
         >
           <View style={{ width: 'auto', flexDirection: 'row', justifyContent: 'center' }}>
-            <Text>{room.name}</Text>
+            <H1>{room.name}</H1>
           </View>
         </View>
         <View>

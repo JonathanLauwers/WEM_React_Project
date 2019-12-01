@@ -1,26 +1,22 @@
 import React from 'react';
 import { View, FlatList } from 'react-native';
-import { RoomPreview } from '../ui';
+import { RoomListItem } from '../ui';
 import { ROOMS } from '../../assets/rooms.js';
 import { styles } from './RoomList.styles';
+import { Colors } from '../styles/_colors';
 import { NavigationStackOptions } from 'react-navigation-stack';
 import { useNavigation } from '../hooks';
-
-type Room = {
-    id: string,
-    name: string,
-    happinessScore: number,
-};
+import { Room } from '../data';
 
 export const RoomList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
     const rooms: Room[] = ROOMS;
     const navigation = useNavigation();
-    const navigateRoom = (id: string) => navigation.navigate('Room', {id: id});
+    const navigateRoom = (room: Room) => navigation.navigate('Room', {room: room});
 
     const renderItem = ({ item }: { item: Room }): JSX.Element => {
         return (
             <View style={styles.roomContainer}>
-                <RoomPreview {...item} navigateRoom={navigateRoom}/>
+                <RoomListItem {...item} navigateRoom={navigateRoom}/>
             </View>
         );
     };
@@ -35,7 +31,7 @@ export const RoomList: React.FunctionComponent & { navigationOptions?: Navigatio
 RoomList.navigationOptions = {
     title: 'Rooms',
     headerStyle: {
-        backgroundColor: '#00FFFF'
+        backgroundColor: Colors.primary
     },
     headerTitleStyle: {
         color: '#FFF'
