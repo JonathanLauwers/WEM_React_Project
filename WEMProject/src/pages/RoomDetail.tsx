@@ -1,15 +1,15 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { useNavigation } from '../hooks';
-import { styles } from './AssetList.styles';
+import { styles } from './RoomDetail.styles';
 import { Colors } from '../styles/_colors';
 import { NavigationStackOptions } from 'react-navigation-stack';
-import { AssetListHeader } from '../ui';
+import { RoomDetailHeader } from '../ui';
 import { ASSETS } from '../../assets/assets.js';
 import { Asset } from '../data';
-import { AssetListItem } from '../ui/room/AssetListItem';
+import { RoomDetailAssetListItem } from '../ui/room/RoomDetailAssetListItem';
 
-export const AssetList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
+export const RoomDetail: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
   const navigation = useNavigation();
   const { room } = navigation.state.params;
   const assets: Asset[] = ASSETS;
@@ -18,23 +18,23 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
 
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
+        <View style={styles.roomContainer}>
+            <RoomDetailAssetListItem asset={item} navigateAsset={navigateAsset}/>
+        </View>
+    );
+};
+const RenderSeparator = () => <View style={styles.separator}></View>;
+
+    return (
       <View style={styles.roomContainer}>
-        <AssetListItem asset={item} navigateAsset={navigateAsset} />
+        <RoomDetailHeader roomDetails={room}></RoomDetailHeader>
+        <FlatList data={assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
       </View>
     );
-  };
-  const RenderSeparator = () => <View style={styles.separator}></View>;
-
-  return (
-    <View style={styles.roomContainer}>
-      <AssetListHeader roomDetails={room}></AssetListHeader>
-      <FlatList data={assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
-    </View>
-  );
-}
+  }
 
 
-AssetList.navigationOptions = () => ({
+RoomDetail.navigationOptions = () => ({
   title: "Assets",
   headerStyle: {
     backgroundColor: Colors.primary

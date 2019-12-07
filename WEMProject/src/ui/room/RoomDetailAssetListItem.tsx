@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { styles } from './AssetListItem.styles';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { styles } from './RoomDetailAssetListItem.styles';
 import { Subtitle } from '../TextHeaders';
 import { Asset } from '../../data/asset/asset';
 
@@ -9,7 +9,7 @@ type AssetPreview = {
   navigateAsset: (asset: Asset) => void;
 }
 
-export const AssetListItem: React.FunctionComponent<AssetPreview> = (asset): JSX.Element => {
+export const RoomDetailAssetListItem: React.FunctionComponent<AssetPreview> = (asset): JSX.Element => {
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => asset.navigateAsset(asset.asset)}>

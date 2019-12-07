@@ -3,8 +3,8 @@ import { StyleSheet, View } from 'react-native';
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { RoomList } from './src/pages/RoomList';
-import { AssetList } from './src/pages/AssetList';
-import { TicketList } from './src/pages/TicketList';
+import { RoomDetail } from './src/pages/RoomDetail';
+import { AssetDetail } from './src/pages/AssetDetail';
 
 export default function App() {
 
@@ -12,11 +12,11 @@ export default function App() {
     Home: {
       screen: RoomList
     },
-    Asset: {
-      screen: AssetList
+    Room: {
+      screen: RoomDetail
     },
-    Ticket: {
-      screen: TicketList
+    Asset: {
+      screen: AssetDetail
     }
   });
 
