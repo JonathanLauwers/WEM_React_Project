@@ -11,7 +11,7 @@ import { Room } from '../data';
 export const RoomList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
     const rooms: Room[] = ROOMS;
     const navigation = useNavigation();
-    const navigateRoom = (room: Room) => navigation.navigate('Room', {room: room});
+    const navigateRoom = (room: Room) => navigation.navigate('Asset', {room: room});
 
     const renderItem = ({ item }: { item: Room }): JSX.Element => {
         return (

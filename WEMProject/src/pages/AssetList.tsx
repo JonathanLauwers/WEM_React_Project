@@ -1,25 +1,25 @@
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import { useNavigation } from '../hooks';
-import { styles } from './RoomDetail.styles';
+import { styles } from './AssetList.styles';
 import { Colors } from '../styles/_colors';
 import { NavigationStackOptions } from 'react-navigation-stack';
-import { RoomDetailHeader } from '../ui';
+import { AssetListHeader } from '../ui';
 import { ASSETS } from '../../assets/assets.js';
 import { Asset } from '../data';
-import { RoomDetailAssetListItem } from '../ui/room/RoomDetailAssetListItem';
+import { AssetListItem } from '../ui';
 
-export const RoomDetail: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
+export const AssetList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
   const navigation = useNavigation();
   const { room } = navigation.state.params;
   const assets: Asset[] = ASSETS;
   //(ASSETS as Asset[]).find(asset => asset.roomId === room.id);
-  const navigateAsset = (asset: Asset) => navigation.navigate('Asset', { asset: asset });
+  const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
 
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
         <View style={styles.roomContainer}>
-            <RoomDetailAssetListItem asset={item} navigateAsset={navigateAsset}/>
+            <AssetListItem asset={item} navigateAsset={navigateTicket}/>
         </View>
     );
 };
@@ -27,14 +27,14 @@ const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
       <View style={styles.roomContainer}>
-        <RoomDetailHeader roomDetails={room}></RoomDetailHeader>
+        <AssetListHeader roomDetails={room}></AssetListHeader>
         <FlatList data={assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
       </View>
     );
   }
 
 
-RoomDetail.navigationOptions = () => ({
+AssetList.navigationOptions = () => ({
   title: "Assets",
   headerStyle: {
     backgroundColor: Colors.primary

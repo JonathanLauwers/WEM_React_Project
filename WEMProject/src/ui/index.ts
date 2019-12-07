@@ -1,3 +1,6 @@
 export * from './CircledImage';
 export * from './room/RoomListItem';
-export * from './room/RoomDetailHeader';
+export * from './asset/AssetListHeader';
+export * from './asset/AssetListItem';
+export * from './ticket/TicketListItem';
+export * from './ticket/TicketListHeader';

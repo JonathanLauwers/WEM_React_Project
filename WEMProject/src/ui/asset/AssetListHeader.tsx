@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { styles } from './RoomDetailHeader.styles';
+import { styles } from './AssetListHeader.styles';
 import { H1, Subtitle } from '../TextHeaders';
 import { Room } from '../../data/room/room';
 
-type RoomDetailHeader = {
+type AssetListHeader = {
   roomDetails: Room;
   //navigateRoom: (room: Room) => void;
 }
 
-export const RoomDetailHeader: React.FunctionComponent<RoomDetailHeader> = (room): JSX.Element => {
+export const AssetListHeader: React.FunctionComponent<AssetListHeader> = (room): JSX.Element => {
   return (
     <View style={styles.container}>
         <H1>{room.roomDetails.name}</H1>
