@@ -13,8 +13,9 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
   const navigation = useNavigation();
   const { room } = navigation.state.params;
   const assets: Asset[] = ASSETS;
-  //(ASSETS as Asset[]).find(asset => asset.roomId === room.id);
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
+  const navigateAssetList = () => navigation.navigate('AssetList'); //to be further implemented
+
 
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
@@ -27,7 +28,7 @@ const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
       <View style={styles.assetContainer}>
-        <AssetListHeader roomDetails={room}></AssetListHeader>
+        <AssetListHeader roomDetails={room} navigateAssetList={navigateAssetList}></AssetListHeader>
         <FlatList data={assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
       </View>
     );

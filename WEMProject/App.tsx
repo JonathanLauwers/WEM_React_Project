@@ -22,6 +22,9 @@ export default function App() {
     TicketDetail: {
       screen: TicketDetail
     },
+    AssetList: {
+      screen: AssetList
+    },
   });
 
   const AppContainer = createAppContainer(Stack);
