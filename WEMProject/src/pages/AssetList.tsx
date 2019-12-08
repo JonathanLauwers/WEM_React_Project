@@ -18,7 +18,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
 
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
-        <View style={styles.roomContainer}>
+        <View style={styles.assetContainer}>
             <AssetListItem asset={item} navigateAsset={navigateTicket}/>
         </View>
     );
@@ -26,7 +26,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
 const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
-      <View style={styles.roomContainer}>
+      <View style={styles.assetContainer}>
         <AssetListHeader roomDetails={room}></AssetListHeader>
         <FlatList data={assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
       </View>

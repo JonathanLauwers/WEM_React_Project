@@ -5,6 +5,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { RoomList } from './src/pages/RoomList';
 import { AssetList } from './src/pages/AssetList';
 import { TicketList } from './src/pages/TicketList';
+import { TicketDetail } from './src/pages/TicketDetail';
 
 export default function App() {
 
@@ -17,7 +18,10 @@ export default function App() {
     },
     Ticket: {
       screen: TicketList
-    }
+    },
+    TicketDetail: {
+      screen: TicketDetail
+    },
   });
 
   const AppContainer = createAppContainer(Stack);

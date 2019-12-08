@@ -6,13 +6,16 @@ import { Ticket } from '../../data';
 
 type TicketPreview = {
   ticket: Ticket;
+  navigateTicketDetails: (ticket: Ticket) => void;
 }
 
 export const TicketListItem: React.FunctionComponent<TicketPreview> = (ticket): JSX.Element => {
   return (
-    <View style={styles.container}>
-      <Subtitle>Number of votes: {ticket.ticket.numberOfVotes}</Subtitle>
-      <Text>{ticket.ticket.description}</Text>
-    </View>
+    <TouchableOpacity onPress={() => ticket.navigateTicketDetails(ticket.ticket)}>
+      <View style={styles.container}>
+        <Subtitle>Ticket ID: {ticket.ticket.id}</Subtitle>
+        <Text>Number of votes: {ticket.ticket.numberOfVotes}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };

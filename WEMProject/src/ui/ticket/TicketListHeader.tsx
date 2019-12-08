@@ -6,7 +6,6 @@ import { Asset } from '../../data';
 
 type TicketListHeader = {
   assetDetails: Asset;
-  //navigateRoom: (room: Room) => void;
 }
 
 export const TicketListHeader: React.FunctionComponent<TicketListHeader> = (asset): JSX.Element => {

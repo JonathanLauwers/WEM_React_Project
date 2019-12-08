@@ -12,18 +12,19 @@ export const TicketList: React.FunctionComponent & { navigationOptions?: Navigat
   const navigation = useNavigation();
   const { asset } = navigation.state.params;
   const tickets: Ticket[] = TICKETS;
+  const navigateTicketDetails = (ticket: Ticket) => navigation.navigate('TicketDetail', {ticket: ticket});
 
   const renderItem = ({ item }: { item: Ticket }): JSX.Element => {
     return (
-      <View style={styles.roomContainer}>
-        <TicketListItem ticket={item} />
+      <View style={styles.ticketContainer}>
+        <TicketListItem ticket={item} navigateTicketDetails={navigateTicketDetails}/>
       </View>
     );
   };
   const RenderSeparator = () => <View style={styles.separator}></View>;
 
   return (
-    <View style={styles.roomContainer}>
+    <View style={styles.ticketContainer}>
       <TicketListHeader assetDetails={asset}></TicketListHeader>
       <FlatList data={tickets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={ticket => ticket.id} />
     </View>
