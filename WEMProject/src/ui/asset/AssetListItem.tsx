@@ -13,7 +13,7 @@ export const AssetListItem: React.FunctionComponent<AssetPreview> = (asset): JSX
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => asset.navigateAsset(asset.asset)}>
-          <View style={{ width: 'auto', flexDirection: 'row', justifyContent: 'center' }}>
+          <View style={styles.listItem}>
             <Subtitle>{asset.asset.name}</Subtitle>
           </View>
       </TouchableOpacity>

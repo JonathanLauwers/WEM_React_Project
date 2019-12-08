@@ -11,10 +11,8 @@ type TicketPreview = {
 export const TicketListItem: React.FunctionComponent<TicketPreview> = (ticket): JSX.Element => {
   return (
     <View style={styles.container}>
-      <View style={{ width: 'auto', flexDirection: 'row', justifyContent: 'center' }}>
-        <Subtitle>{ticket.ticket.numberOfVotes}</Subtitle>
-        <Text>{ticket.ticket.description}</Text>
-      </View>
+      <Subtitle>Number of votes: {ticket.ticket.numberOfVotes}</Subtitle>
+      <Text>{ticket.ticket.description}</Text>
     </View>
   );
 };
