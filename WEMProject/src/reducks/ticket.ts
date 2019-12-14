@@ -1,17 +1,13 @@
 import { Reducer } from "react";
 import { Ticket } from "../data";
 
-// TODO: Create new action types and action creators (CREATE_TICKET, CREATE_TICKET_SUCCESS, CREATE_TICKET_FAIL) and their corresponding reducer handlers to CREATE an TICKET and handle success or failure
-// TODO: When creating the action creator (thunk), use the (dispatch, getState) signature so you can access to logged in user's token and add it to the request headers
-// TIP: 'Authorization': 'Token ' + token
-// Action Types
 const LOAD_TICKET_LIST = 'WEMProject/ticket/LOAD_TICKET_LIST';
 const LOAD_TICKET_LIST_SUCCESS = 'WEMProject/ticket/LOAD_TICKET_LIST_SUCCESS';
 const LOAD_TICKET_LIST_FAIL = 'WEMProject/ticket/LOAD_TICKET_LIST_FAIL';
 
 const LOAD_TICKET_DETAIL = 'WEMProject/ticket/LOAD_TICKET_DETAIL';
 const LOAD_TICKET_DETAIL_SUCCESS = 'WEMProject/ticket/LOAD_TICKET_DETAIL_SUCCESS';
-const LOAD_TICKET_DETAIL_FAIL = 'WEMProject/ticket/LOAD_TICKET_LIST_FAIL';
+const LOAD_TICKET_DETAIL_FAIL = 'WEMProject/ticket/LOAD_TICKET_DETAIL_FAIL';
 
 const CREATE_TICKET = 'WEMProject/ticket/CREATE_TICKET';
 const CREATE_TICKET_SUCCESS = 'WEMProject/ticket/CREATE_TICKET_SUCCESS';

@@ -6,7 +6,7 @@ import { Colors } from '../styles/_colors';
 import { NavigationStackOptions } from 'react-navigation-stack';
 import { TicketListItem, TicketListHeader } from '../ui';
 import { TICKETS } from '../../assets/tickets.js';
-import { Ticket, Asset } from '../data';
+import { Ticket } from '../data';
 
 export const TicketList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
   const navigation = useNavigation();
@@ -24,14 +24,14 @@ export const TicketList: React.FunctionComponent & { navigationOptions?: Navigat
 
   return (
     <View style={styles.ticketContainer}>
-      <TicketListHeader assetDetails={asset}></TicketListHeader>
+      <TicketListHeader assetName={asset.assetName}></TicketListHeader>
       <FlatList data={tickets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={ticket => ticket.id} />
     </View>
   );
 }
 
 TicketList.navigationOptions = ({navigation}) => ({
-  title: "Tickets",
+  title: navigation.state.params.asset.name,
   headerStyle: {
     backgroundColor: Colors.primary
   },

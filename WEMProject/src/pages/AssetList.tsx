@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, TouchableWithoutFeedback, Text} from 'react-native';
 import { useNavigation } from '../hooks';
 import { styles } from './AssetList.styles';
 import { Colors } from '../styles/_colors';
@@ -14,8 +14,6 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
   const { room } = navigation.state.params;
   const assets: Asset[] = ASSETS;
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
-  const navigateAssetList = () => navigation.navigate('AllAssetsList'); //to be further implemented
-
 
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
@@ -28,15 +26,15 @@ const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
       <View style={styles.assetContainer}>
-        <AssetListHeader roomDetails={room} navigateAssetList={navigateAssetList}></AssetListHeader>
+        <AssetListHeader happinessScore={room.happinessScore}></AssetListHeader>
         <FlatList data={assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
       </View>
     );
   }
 
 
-AssetList.navigationOptions = () => ({
-  title: "Assets",
+AssetList.navigationOptions = ({navigation}) => ({
+  title: navigation.state.params.room.name,
   headerStyle: {
     backgroundColor: Colors.primary
   },
@@ -45,5 +43,10 @@ AssetList.navigationOptions = () => ({
   },
   headerBackTitleStyle: {
     color: '#FFF'
-  }
+  },
+  headerRight: (
+    <TouchableWithoutFeedback onPress={() => navigation.navigate('AllAssetsList')}> 
+        <Text style={styles.headerRight}>View all assets</Text>
+    </TouchableWithoutFeedback>
+  )
 });
