@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Button, ColorPropType } from 'react-native';
 import { styles } from './RoomListItem.styles';
 import { H1 } from '../TextHeaders';
 import { Room } from '../../data/room/room';
@@ -8,6 +8,7 @@ type RoomPreview = {
   id: string,
   name: string,
   happinessScore: number,
+  buttonClicked: boolean,
   navigateRoom: (room: Room) => void;
 
 }
@@ -19,16 +20,19 @@ export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.El
         <View
           style={styles.header}
         >
-          <View style={{ width: 'auto', flexDirection: 'row', justifyContent: 'center' }}>
-            <H1>{room.name}</H1>
-          </View>
-        </View>
-        <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 8 }}>
-            <Text>Happiness score: {room.happinessScore}</Text>
-          </View>
+          <H1>{room.name}</H1>
+          <Text>Happiness score: {room.happinessScore}</Text>
         </View>
       </TouchableOpacity>
+
+      <View style={styles.buttons}>
+        <View style={styles.button}>
+          <Button color="green" title= "+1" onPress={() => console.log("+1")} />
+        </View>
+        <View style={styles.button}>
+          <Button color="red" title="-1" onPress={() => console.log("-1")} />
+        </View>
+      </View>
     </View>
   );
 };

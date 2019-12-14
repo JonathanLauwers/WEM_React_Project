@@ -24,7 +24,7 @@ export const TicketList: React.FunctionComponent & { navigationOptions?: Navigat
 
   return (
     <View style={styles.ticketContainer}>
-      <TicketListHeader assetName={asset.assetName}></TicketListHeader>
+      <TicketListHeader></TicketListHeader>
       <FlatList data={tickets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={ticket => ticket.id} />
     </View>
   );
