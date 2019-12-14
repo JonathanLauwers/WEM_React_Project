@@ -1,19 +1,18 @@
 import React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, TouchableWithoutFeedback, Text } from 'react-native';
 import { useNavigation } from '../hooks';
 import { styles } from './TicketList.styles';
 import { Colors } from '../styles/_colors';
 import { NavigationStackOptions } from 'react-navigation-stack';
 import { TicketListItem, TicketListHeader } from '../ui';
 import { TICKETS } from '../../assets/tickets.js';
-import { Ticket } from '../data';
+import { Ticket, Asset } from '../data';
 
 export const TicketList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
   const navigation = useNavigation();
   const { asset } = navigation.state.params;
   const tickets: Ticket[] = TICKETS;
   const navigateTicketDetails = (ticket: Ticket) => navigation.navigate('TicketDetail', {ticket: ticket});
-
   const renderItem = ({ item }: { item: Ticket }): JSX.Element => {
     return (
       <View style={styles.ticketContainer}>
@@ -31,7 +30,7 @@ export const TicketList: React.FunctionComponent & { navigationOptions?: Navigat
   );
 }
 
-TicketList.navigationOptions = () => ({
+TicketList.navigationOptions = ({navigation}) => ({
   title: "Tickets",
   headerStyle: {
     backgroundColor: Colors.primary
@@ -41,5 +40,10 @@ TicketList.navigationOptions = () => ({
   },
   headerBackTitleStyle: {
     color: '#FFF'
-  }
+  },
+  headerRight: (
+    <TouchableWithoutFeedback onPress={() => navigation.navigate('CreateTicket', {asset: navigation.state.params})}> 
+        <Text style={styles.addSymbol}>+</Text>
+    </TouchableWithoutFeedback>
+  )
 });

@@ -4,18 +4,14 @@ import { useNavigation } from '../hooks';
 import { styles } from './AssetList.styles';
 import { Colors } from '../styles/_colors';
 import { NavigationStackOptions } from 'react-navigation-stack';
-import { AssetListHeader } from '../ui';
 import { ASSETS } from '../../assets/assets.js';
 import { Asset } from '../data';
 import { AssetListItem } from '../ui';
 
-export const AssetList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
+export const AllAssetsList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
   const navigation = useNavigation();
-  const { room } = navigation.state.params;
   const assets: Asset[] = ASSETS;
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
-  const navigateAssetList = () => navigation.navigate('AllAssetsList'); //to be further implemented
-
 
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
@@ -28,15 +24,14 @@ const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
       <View style={styles.assetContainer}>
-        <AssetListHeader roomDetails={room} navigateAssetList={navigateAssetList}></AssetListHeader>
         <FlatList data={assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
       </View>
     );
   }
 
 
-AssetList.navigationOptions = () => ({
-  title: "Assets",
+AllAssetsList.navigationOptions = () => ({
+  title: "All assets",
   headerStyle: {
     backgroundColor: Colors.primary
   },
