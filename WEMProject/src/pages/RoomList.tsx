@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { View, FlatList } from 'react-native';
-import { RoomListItem } from '../ui';
+import { RoomListItem, RoomFilter } from '../ui';
 import { ROOMS } from '../../assets/rooms.js';
 import { styles } from './RoomList.styles';
 import { Colors } from '../styles/_colors';
@@ -42,12 +42,16 @@ export const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Na
             {props.isLoading ? (
                 <H2>Loading...</H2>
             ) : (
+                <View>
+                <RoomFilter/>
+
                 <FlatList 
                     data={rooms}
                     renderItem={renderItem} 
                     ItemSeparatorComponent={RenderSeparator} 
                     keyExtractor={room => room.id} 
                 />
+                </View>
             )}
         </View>
 

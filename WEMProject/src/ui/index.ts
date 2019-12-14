@@ -1,5 +1,6 @@
 export * from './CircledImage';
 export * from './room/RoomListItem';
+export * from './room/RoomFilter';
 export * from './asset/AssetListHeader';
 export * from './asset/AssetListItem';
 export * from './ticket/TicketListItem';
