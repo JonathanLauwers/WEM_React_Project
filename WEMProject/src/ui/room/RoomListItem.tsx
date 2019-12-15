@@ -10,6 +10,7 @@ type RoomPreview = {
   name: string,
   happinessScore: number,
   navigateRoom: (room: Room) => void;
+  navigateMaps: (room: Room) => void;
 }
 
 export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.Element => {
@@ -33,7 +34,7 @@ export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.El
 
       <View style={styles.buttons}>
         <View style={styles.button}>
-          <Button title="Maps" onPress={() => console.log("Google maps")} />
+          <Button title="Maps" onPress={() => room.navigateMaps(room)} />
         </View>
         <View style={styles.button}>
           <Button color="green" title="+1" onPress={() => console.log("+1")} />

@@ -8,6 +8,7 @@ import { TicketList } from './src/pages/TicketList';
 import { TicketDetail } from './src/pages/TicketDetail';
 import { CreateTicket } from './src/pages/CreateTicket';
 import { AllAssetsList } from './src/pages/AllAssetsList';
+import GoogleMaps from './src/pages/GoogleMaps';
 
 export default function App() {
 
@@ -17,6 +18,9 @@ export default function App() {
     },
     Asset: {
       screen: AssetList
+    },
+    Maps: {
+      screen: GoogleMaps
     },
     Ticket: {
       screen: TicketList

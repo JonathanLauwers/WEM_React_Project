@@ -22,7 +22,7 @@ export const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Na
 
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
-
+    const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
     /*  useEffect(() => {
          props.getRoomList();
      }) */
@@ -30,7 +30,7 @@ export const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Na
     const renderItem = ({ item }: { item: Room }): JSX.Element => {
         return (
             <View style={styles.roomContainer}>
-                <RoomListItem {...item} navigateRoom={navigateRoom} />
+                <RoomListItem {...item} navigateRoom={navigateRoom} navigateMaps={navigateMaps}/>
             </View>
         );
     };
@@ -43,8 +43,8 @@ export const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Na
                 <H2>Loading...</H2>
             ) : (
                 <View>
-                <RoomFilter/>
-
+{/*                 <RoomFilter/>
+ */}
                 <FlatList 
                     data={rooms}
                     renderItem={renderItem} 
