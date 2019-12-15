@@ -19,7 +19,7 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
 
   const [description] = React.useState('');
   const [numberOfVotes] = React.useState();
-  
+
   const navigation = useNavigation();
   const { asset } = navigation.state.params;
 
@@ -49,8 +49,8 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
         <TextInput key="description" style={styles.input} multiline numberOfLines={4} placeholder="A small description" />
       </View>
       <Button title="Submit" color={Colors.primary} onPress={() => console.log('button pressed')}></Button>
-{/*       <Button title="Submit" color={Colors.primary} onPress={() => createTicket()}></Button>*/}    
-  </View>
+      {/*       <Button title="Submit" color={Colors.primary} onPress={() => createTicket()}></Button>*/}
+    </View>
   );
 
 };
