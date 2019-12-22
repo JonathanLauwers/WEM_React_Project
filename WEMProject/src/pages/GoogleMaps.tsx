@@ -7,7 +7,7 @@ import {
     Text
 } from 'react-native';
 import { styles } from './GoogleMaps.styles';
-//import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
 export default class GoogleMaps extends Component {
     static navigationOptions = {
@@ -32,19 +32,19 @@ export default class GoogleMaps extends Component {
     
     render(){
         return (
-           /*  <MapView
-            provider={PROVIDER_GOOGLE}
-            style={styles.map}
-            region={{
-                latitude: 50.937030,
-                longitude: 5.348530,
-                latitudeDelta: 0.09,
-                longitudeDelta: 0.035,
+            
+            <View>
+                 <MapView
+                  provider={PROVIDER_GOOGLE}
+                  style={styles.map}
+                  region={{
+                  latitude: 50.937030,
+                  longitude: 5.348530,
+                  latitudeDelta: 0.09,
+                  longitudeDelta: 0.035,
             }}>
 
-            </MapView> */
-            <View>
-                <Text>Maps</Text>
+            </MapView> 
             </View>
         )
     }
