@@ -51,9 +51,9 @@ export const getRoomList = () => {
   return async (dispatch) => {
     dispatch(setRoomListLoading());
     try {
-      const response = await fetch(`http://localhost:8000/rooms/`);
+      const response = await fetch(`http://127.0.0.1:8000/rooms`);
       if (!response.ok) throw new Error();
-      const { rooms }: { rooms: Room[] } = await response.json();
+      const { rooms } = await response.json();
       dispatch(getRoomListSuccess(rooms));
     } catch (error) {
       dispatch(getRoomListFail())
@@ -68,7 +68,7 @@ const setRoomListLoading = () => {
   }
 }
 
-const getRoomListSuccess = (rooms: Room[]) => {
+const getRoomListSuccess = (rooms) => {
   return {
     type: LOAD_ROOM_LIST_SUCCESS,
     payload: { data: rooms }

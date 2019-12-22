@@ -11,21 +11,21 @@ import { getRoomList } from '../reducks/room';
 import { H2 } from '../ui/TextHeaders';
 import { connect } from 'react-redux';
 
+
 type Props = {
     rooms: Room[];
     isLoading: boolean;
     getRoomList: () => (dispatch: any) => Promise<void>;
 }
 
-export const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
-    const rooms: Room[] = ROOMS; //wordt nog verandert met redux
-
+const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
-    /*  useEffect(() => {
+    
+     useEffect(() => {
          props.getRoomList();
-     }) */
+     }) 
 
     const renderItem = ({ item }: { item: Room }): JSX.Element => {
         return (
@@ -46,7 +46,7 @@ export const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Na
 {/*                 <RoomFilter/>
  */}
                 <FlatList 
-                    data={rooms}
+                    data={props.rooms}
                     renderItem={renderItem} 
                     ItemSeparatorComponent={RenderSeparator} 
                     keyExtractor={room => room.id} 

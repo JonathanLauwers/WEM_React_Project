@@ -1,5 +1,5 @@
-import React from 'react';
-import { FlatList, View, TouchableWithoutFeedback, Text} from 'react-native';
+import React, { useEffect } from 'react';
+import { FlatList, View, TouchableWithoutFeedback, Text, ActivityIndicator} from 'react-native';
 import { useNavigation } from '../hooks';
 import { styles } from './AssetList.styles';
 import { Colors } from '../styles/_colors';
@@ -7,14 +7,25 @@ import { NavigationStackOptions } from 'react-navigation-stack';
 import { AssetListHeader } from '../ui';
 import { ASSETS } from '../../assets/assets.js';
 import { Asset } from '../data';
+import { getAssetList } from '../reducks/asset';
 import { AssetListItem } from '../ui';
+import { connect } from 'react-redux';
 
-export const AssetList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
+type Props = {
+  assets: Asset[];
+  isLoading: boolean;
+  getAssetList: () => (dispatch: any) => Promise<void>;
+}
+
+export const AssetList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
   const navigation = useNavigation();
   const { room } = navigation.state.params;
-  const assets: Asset[] = ASSETS;
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
 
+  useEffect(() => {
+    props.getAssetList();
+  }) 
+  
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
         <View style={styles.assetContainer}>
@@ -22,13 +33,23 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
         </View>
     );
 };
+
 const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
-      <View style={styles.assetContainer}>
-        <AssetListHeader happinessScore={room.happinessScore}></AssetListHeader>
-        <FlatList data={assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
-      </View>
+      <View>
+        {props.isLoading ? (
+            <View>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text style={styles.loading}>Loading...</Text>
+            </View>
+            ) : ( 
+              <View style={styles.assetContainer}> 
+              <AssetListHeader happinessScore={room.happinessScore}></AssetListHeader>
+              <FlatList data={props.assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
+              </View>
+            )}
+        </View>
     );
   }
 
@@ -50,3 +71,11 @@ AssetList.navigationOptions = ({navigation}) => ({
     </TouchableWithoutFeedback>
   )
 });
+
+const mapStateToProps = state => ({ assets: state.asset.list, loading: state.asset.isLoadingList });
+const mapDispatchToProps = dispatch => ({ getAssetList: () => dispatch(getAssetList()) });
+const AssetListPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AssetList);
+export default AssetListPage;

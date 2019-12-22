@@ -1,17 +1,30 @@
-import React from 'react';
-import { FlatList, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { FlatList, View, TouchableWithoutFeedback, Text} from 'react-native';
 import { useNavigation } from '../hooks';
 import { styles } from './AssetList.styles';
 import { Colors } from '../styles/_colors';
 import { NavigationStackOptions } from 'react-navigation-stack';
+import { AssetListHeader } from '../ui';
 import { ASSETS } from '../../assets/assets.js';
 import { Asset } from '../data';
+import { getAssetList } from '../reducks/asset';
 import { AssetListItem } from '../ui';
+import { connect } from 'react-redux';
 
-export const AllAssetsList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
+type Props = {
+  assets: Asset[];
+  isLoading: boolean;
+  getAssetList: () => (dispatch: any) => Promise<void>;
+}
+
+export const AllAssetsList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
   const navigation = useNavigation();
   const assets: Asset[] = ASSETS;
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
+
+  useEffect(() => {
+    props.getAssetList();
+  }) 
 
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
@@ -24,7 +37,7 @@ const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
       <View style={styles.assetContainer}>
-        <FlatList data={assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
+        <FlatList data={props.assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
       </View>
     );
   }
@@ -42,3 +55,10 @@ AllAssetsList.navigationOptions = () => ({
     color: '#FFF'
   }
 });
+const mapStateToProps = state => ({ assets: state.asset.list, loading: state.asset.isLoadingList });
+const mapDispatchToProps = dispatch => ({ getAssetList: () => dispatch(getAssetList()) });
+const AllAssetsListPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AllAssetsList);
+export default AllAssetsListPage;

@@ -65,7 +65,8 @@ type TicketState = {
   list: Ticket[],
   isLoadingList: boolean,
   detail: Ticket,
-  isLoadingDetail: boolean
+  isLoadingDetail: boolean,
+  isLoadingCreate: boolean,
 }
 
 // Reducer
@@ -88,7 +89,7 @@ const reducer: Reducer<TicketState, ActionTypes> = (
     case LOAD_TICKET_DETAIL_SUCCESS: {
       return { ...state, detail: action.payload.data, isLoadingDetail: false }
     }
-    case LOAD_TICKET_LIST_FAIL: {
+    case LOAD_TICKET_DETAIL_FAIL: {
       return { ...state, isLoadingDetail: false }
     }
     case CREATE_TICKET: {
@@ -109,7 +110,7 @@ export const getTicketList = () => {
   return async (dispatch) => {
     dispatch(setTicketListLoading());
     try {
-      const response = await fetch(`http://localhost:8000/tickets/`);
+      const response = await fetch(`http://127.0.0.1:8000/tickets`);
       if (!response.ok) throw new Error();
       const { tickets }: { tickets: Ticket[] } = await response.json();
       dispatch(getTicketListSuccess(tickets));
@@ -144,7 +145,7 @@ export const getTicket = (id: string) => {
   return async (dispatch) => {
     dispatch(setTicketDetailLoading());
     try {
-      const response = await fetch(`http://localhost:8000/tickets/${id}`);
+      const response = await fetch(`http://127.0.0.1:8001/tickets/${id}`);
       if (!response.ok) throw new Error();
       const { ticket }: { ticket: Ticket } = await response.json();
       dispatch(getTicketSuccess(ticket));
@@ -179,7 +180,7 @@ export const createTicket = (ticket: Ticket) => {
   return async (dispatch, getState) => {
     dispatch(setCreateTicketLoading());
     try {
-      const response = await fetch(`http://localhost:8000/tickets`, {
+      const response = await fetch(`http://127.0.0.1:8001/tickets`, {
         method: 'POST',
         body: JSON.stringify({ticket: ticket}),
         headers: {

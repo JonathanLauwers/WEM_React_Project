@@ -51,7 +51,7 @@ export const getAssetList = () => {
   return async (dispatch) => {
     dispatch(setAssetListLoading());
     try {
-      const response = await fetch(`http://localhost:8000/assets/`);
+      const response = await fetch(`http://127.0.0.1:8000/assets`);
       if (!response.ok) throw new Error();
       const { assets }: { assets: Asset[] } = await response.json();
       dispatch(getAssetListSuccess(assets));

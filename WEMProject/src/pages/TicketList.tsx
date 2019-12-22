@@ -1,5 +1,5 @@
-import React from 'react';
-import { FlatList, View, TouchableWithoutFeedback, Text } from 'react-native';
+import React, { useEffect } from 'react';
+import { FlatList, View, TouchableWithoutFeedback, Text, ActivityIndicator } from 'react-native';
 import { useNavigation } from '../hooks';
 import { styles } from './TicketList.styles';
 import { Colors } from '../styles/_colors';
@@ -7,12 +7,25 @@ import { NavigationStackOptions } from 'react-navigation-stack';
 import { TicketListItem, TicketListHeader } from '../ui';
 import { TICKETS } from '../../assets/tickets.js';
 import { Ticket } from '../data';
+import { getTicketList } from '../reducks/ticket';
+import { connect } from 'react-redux';
 
-export const TicketList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (): JSX.Element => {
+type Props = {
+  tickets: Ticket[];
+  isLoading: boolean;
+  getTicketList: () => (dispatch: any) => Promise<void>;
+}
+
+export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
+  console.log("INSIde", props);
   const navigation = useNavigation();
   const { asset } = navigation.state.params;
-  const tickets: Ticket[] = TICKETS;
   const navigateTicketDetails = (ticket: Ticket) => navigation.navigate('TicketDetail', {ticket: ticket});
+  
+  useEffect(() => {
+    props.getTicketList();
+  }) 
+
   const renderItem = ({ item }: { item: Ticket }): JSX.Element => {
     return (
       <View style={styles.ticketContainer}>
@@ -23,9 +36,17 @@ export const TicketList: React.FunctionComponent & { navigationOptions?: Navigat
   const RenderSeparator = () => <View style={styles.separator}></View>;
 
   return (
-    <View style={styles.ticketContainer}>
-      <TicketListHeader></TicketListHeader>
-      <FlatList data={tickets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={ticket => ticket.id} />
+    <View>
+        {props.isLoading ? (
+            <View>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text style={styles.loading}>Loading...</Text>
+            </View>
+          ) : ( 
+          <View style={styles.ticketContainer}>
+            <TicketListHeader></TicketListHeader>
+            <FlatList data={props.tickets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={ticket => ticket.id} />
+          </View> )}
     </View>
   );
 }
@@ -47,3 +68,11 @@ TicketList.navigationOptions = ({navigation}) => ({
     </TouchableWithoutFeedback>
   )
 });
+
+const mapStateToProps = state => ({ tickets: state.ticket.list, loading: state.ticket.isLoadingList });
+const mapDispatchToProps = dispatch => ({ getTicketList: () => dispatch(getTicketList()) });
+const TicketListPage = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TicketList);
+export default TicketListPage;
