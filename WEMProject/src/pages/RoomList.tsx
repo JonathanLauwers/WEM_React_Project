@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, ActivityIndicator } from 'react-native';
 import { RoomListItem, RoomFilter } from '../ui';
 import { ROOMS } from '../../assets/rooms.js';
 import { styles } from './RoomList.styles';
@@ -38,21 +38,21 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
-        <View>
-            {props.isLoading ? (
-                <H2>Loading...</H2>
-            ) : (
-                <View>
-{/*                 <RoomFilter/>
- */}
+        <View>   
+            {props.rooms && props.rooms.length > 0 ?  
+            <View>
+                <RoomFilter/>
                 <FlatList 
                     data={props.rooms}
                     renderItem={renderItem} 
                     ItemSeparatorComponent={RenderSeparator} 
                     keyExtractor={room => room.id} 
                 />
-                </View>
-            )}
+            </View> : 
+            <View style={styles.loader}>
+                <ActivityIndicator size="large" color={Colors.darkBlue}/> 
+            </View>
+            }
         </View>
 
     );
@@ -68,7 +68,7 @@ RoomList.navigationOptions = {
     }
 };
 
-const mapStateToProps = state => ({ rooms: state.room.list, loading: state.room.isLoadingList });
+const mapStateToProps = state => ({ rooms: state.room.list, isLoading: state.room.isLoadingList });
 const mapDispatchToProps = dispatch => ({ getRoomList: () => dispatch(getRoomList()) });
 const RoomListPage = connect(
   mapStateToProps,

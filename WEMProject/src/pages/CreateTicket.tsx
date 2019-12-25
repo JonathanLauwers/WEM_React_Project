@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Button, Text } from 'react-native';
+import { View, TextInput, Button, Text, ActivityIndicator} from 'react-native';
 import { useNavigation } from '../hooks';
 import { NavigationStackOptions } from 'react-navigation-stack';
 import { Colors } from '../styles/_colors';
@@ -15,18 +15,21 @@ type Props = {
   isLoading: boolean;
 };
 
-export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
+type TicketData = {
+  assetId: string,
+  description: string,
+}
 
-  const [description] = React.useState('');
-  const [numberOfVotes] = React.useState();
+export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
+  
+  const [description, setDescription] = React.useState('');
 
   const navigation = useNavigation();
   const { asset } = navigation.state.params;
 
   const createTicket = () => {
-    const ticket: Ticket = {
-      assetId: asset.asset.id,
-      numberOfVotes: numberOfVotes,
+    const ticket: TicketData = {
+      assetName: asset.asset.name,
       description: description,
     };
     props.postTicket(ticket);
@@ -35,21 +38,27 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
   return (
     <View style={{ padding: 8 }}>
       <H1>New ticket for asset {asset.asset.id}</H1>
-      <View style={styles.LabelFieldRow}>
-        <H2>Number of votes</H2>
-        <TextInput
-          key="numberOfVotes"
-          style={styles.input}
-          keyboardType="numeric"
-          placeholder="0"
-        />
-      </View>
-      <View style={styles.LabelFieldRow}>
-        <H2>Description</H2>
-        <TextInput key="description" style={styles.input} multiline numberOfLines={4} placeholder="A small description" />
-      </View>
-      <Button title="Submit" color={Colors.primary} onPress={() => console.log('button pressed')}></Button>
-      {/*       <Button title="Submit" color={Colors.primary} onPress={() => createTicket()}></Button>*/}
+      
+        {!props.isLoading ? 
+        <View style={styles.LabelFieldRow}>
+          
+          <H2>Description</H2>
+          <TextInput 
+            key="description" 
+            style={styles.input} 
+            multiline numberOfLines={4} 
+            placeholder="A small description"
+            value={description}
+            onChangeText={text => setDescription(text)}
+            editable={!props.isLoading}
+          />     
+          <Button title="Submit" color={Colors.primary} onPress={() => createTicket()}></Button>
+        </View>
+        : 
+        <View style={styles.loader}>
+          <ActivityIndicator size="large" color={Colors.darkBlue} />
+        </View>
+          }
     </View>
   );
 
@@ -69,7 +78,7 @@ CreateTicket.navigationOptions = () => ({
 });
 
 const mapStateToProps = state => ({ isLoading: state.ticket.isLoadingCreate });
-const mapDispatchToProps = dispatch => ({ postArticle: (ticket: Ticket) => dispatch(createTicket(ticket)) });
+const mapDispatchToProps = dispatch => ({ postTicket: (ticket: TicketData) => dispatch(createTicket(ticket)) });
 const CreateTicketPage = connect(
   mapStateToProps,
   mapDispatchToProps

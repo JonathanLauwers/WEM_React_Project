@@ -6,7 +6,7 @@ import  RoomListPage  from './src/pages/RoomList';
 import  AssetListPage from './src/pages/AssetList';
 import  TicketListPage from './src/pages/TicketList';
 import { TicketDetail } from './src/pages/TicketDetail';
-import { CreateTicket } from './src/pages/CreateTicket';
+import CreateTicketPage from './src/pages/CreateTicket';
 import AllAssetsListPage from './src/pages/AllAssetsList';
 import GoogleMaps from './src/pages/GoogleMaps';
 import { Provider } from 'react-redux';
@@ -33,7 +33,7 @@ export default function App() {
       screen: TicketDetail
     },
     CreateTicket: {
-      screen: CreateTicket
+      screen: CreateTicketPage
     },
     AllAssetsList: {
       screen: AllAssetsListPage

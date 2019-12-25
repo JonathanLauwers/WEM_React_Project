@@ -37,15 +37,14 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
 const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
-      <View>
-        {props.isLoading ? (
-            <View>
-                <ActivityIndicator size="large" color="#0000ff" />
-                <Text style={styles.loading}>Loading...</Text>
+      <View style={styles.assetContainer}>
+        <AssetListHeader happinessScore={room.happinessScore}></AssetListHeader>
+        {props.assets.length < 1 && props.isLoading ? (
+            <View style={styles.loader}>
+                <ActivityIndicator size="large" color={Colors.darkBlue} />
             </View>
             ) : ( 
-              <View style={styles.assetContainer}> 
-              <AssetListHeader happinessScore={room.happinessScore}></AssetListHeader>
+              <View>
               <FlatList data={props.assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
               </View>
             )}
@@ -72,7 +71,7 @@ AssetList.navigationOptions = ({navigation}) => ({
   )
 });
 
-const mapStateToProps = state => ({ assets: state.asset.list, loading: state.asset.isLoadingList });
+const mapStateToProps = state => ({ assets: state.asset.list, isLoading: state.asset.isLoadingList });
 const mapDispatchToProps = dispatch => ({ getAssetList: () => dispatch(getAssetList()) });
 const AssetListPage = connect(
   mapStateToProps,

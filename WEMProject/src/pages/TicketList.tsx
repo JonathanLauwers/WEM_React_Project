@@ -17,7 +17,6 @@ type Props = {
 }
 
 export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
-  console.log("INSIde", props);
   const navigation = useNavigation();
   const { asset } = navigation.state.params;
   const navigateTicketDetails = (ticket: Ticket) => navigation.navigate('TicketDetail', {ticket: ticket});
@@ -36,15 +35,14 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
   const RenderSeparator = () => <View style={styles.separator}></View>;
 
   return (
-    <View>
-        {props.isLoading ? (
-            <View>
-                <ActivityIndicator size="large" color="#0000ff" />
-                <Text style={styles.loading}>Loading...</Text>
+    <View style={styles.ticketContainer}>
+        <TicketListHeader></TicketListHeader>
+        {props.tickets.length < 1 && props.isLoading ? (
+            <View style={styles.loader}>
+              <ActivityIndicator size="large" color={Colors.darkBlue} />
             </View>
           ) : ( 
-          <View style={styles.ticketContainer}>
-            <TicketListHeader></TicketListHeader>
+          <View >
             <FlatList data={props.tickets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={ticket => ticket.id} />
           </View> )}
     </View>
@@ -69,7 +67,7 @@ TicketList.navigationOptions = ({navigation}) => ({
   )
 });
 
-const mapStateToProps = state => ({ tickets: state.ticket.list, loading: state.ticket.isLoadingList });
+const mapStateToProps = state => ({ tickets: state.ticket.list, isLoading: state.ticket.isLoadingList });
 const mapDispatchToProps = dispatch => ({ getTicketList: () => dispatch(getTicketList()) });
 const TicketListPage = connect(
   mapStateToProps,

@@ -67,11 +67,12 @@ type TicketState = {
   detail: Ticket,
   isLoadingDetail: boolean,
   isLoadingCreate: boolean,
+  errors: { [key: string]: string[] };
 }
 
 // Reducer
 const reducer: Reducer<TicketState, ActionTypes> = (
-  state = { list: [], isLoadingList: true, detail: null, isLoadingDetail: true }, action
+  state = { list: [], isLoadingList: true, detail: null, isLoadingDetail: true ,isLoadingCreate: false}, action
 ) => {
   switch (action.type) {
     case LOAD_TICKET_LIST: {
@@ -145,7 +146,7 @@ export const getTicket = (id: string) => {
   return async (dispatch) => {
     dispatch(setTicketDetailLoading());
     try {
-      const response = await fetch(`http://127.0.0.1:8001/tickets/${id}`);
+      const response = await fetch(`http://127.0.0.1:8000/tickets/${id}`);
       if (!response.ok) throw new Error();
       const { ticket }: { ticket: Ticket } = await response.json();
       dispatch(getTicketSuccess(ticket));
@@ -176,17 +177,15 @@ const getTicketFail = () => {
   }
 }
 
-export const createTicket = (ticket: Ticket) => {
+export const createTicket = (ticket: TicketData) => {
   return async (dispatch, getState) => {
     dispatch(setCreateTicketLoading());
     try {
-      const response = await fetch(`http://127.0.0.1:8001/tickets`, {
+      const response = await fetch(`http://127.0.0.1:8000/tickets/create?name=${ticket.assetName}&description=${ticket.description}`, {
         method: 'POST',
-        body: JSON.stringify({ticket: ticket}),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Token ${getState().user.user.token}`
-        }
+        } 
       });
       const body = await response.json();
       if (!response.ok) throw new Error(body.errors);
