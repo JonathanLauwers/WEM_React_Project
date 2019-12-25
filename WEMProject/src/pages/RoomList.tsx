@@ -16,21 +16,24 @@ type Props = {
     rooms: Room[];
     isLoading: boolean;
     getRoomList: () => (dispatch: any) => Promise<void>;
+    voteRoom: () => (dispatch: any) => Promise<void>;
 }
 
 const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
-    
+
      useEffect(() => {
          props.getRoomList();
      }) 
 
+    const voteTicket = (id: string, rating: number) => props.voteRoom(id, rating);
+
     const renderItem = ({ item }: { item: Room }): JSX.Element => {
         return (
             <View style={styles.roomContainer}>
-                <RoomListItem {...item} navigateRoom={navigateRoom} navigateMaps={navigateMaps}/>
+                <RoomListItem {...item} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteTicket={voteTicket}/>
             </View>
         );
     };
@@ -69,7 +72,7 @@ RoomList.navigationOptions = {
 };
 
 const mapStateToProps = state => ({ rooms: state.room.list, isLoading: state.room.isLoadingList });
-const mapDispatchToProps = dispatch => ({ getRoomList: () => dispatch(getRoomList()) });
+const mapDispatchToProps = dispatch => ({ getRoomList: () => dispatch(getRoomList()), voteRoom: (id: string, rating: number) => dispatch(voteRoom(id, rating)) });
 const RoomListPage = connect(
   mapStateToProps,
   mapDispatchToProps

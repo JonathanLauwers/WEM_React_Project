@@ -23,7 +23,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
 
   useEffect(() => {
-    props.getAssetList();
+    props.getAssetList(room.id);
   }) 
   
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
@@ -72,7 +72,7 @@ AssetList.navigationOptions = ({navigation}) => ({
 });
 
 const mapStateToProps = state => ({ assets: state.asset.list, isLoading: state.asset.isLoadingList });
-const mapDispatchToProps = dispatch => ({ getAssetList: () => dispatch(getAssetList()) });
+const mapDispatchToProps = dispatch => ({ getAssetList: (id: string) => dispatch(getAssetList(id)) });
 const AssetListPage = connect(
   mapStateToProps,
   mapDispatchToProps

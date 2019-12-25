@@ -5,6 +5,11 @@ const LOAD_ROOM_LIST = 'WEMProject/room/LOAD_ROOM_LIST';
 const LOAD_ROOM_LIST_SUCCESS = 'WEMProject/room/LOAD_ROOM_LIST_SUCCESS';
 const LOAD_ROOM_LIST_FAIL = 'WEMProject/room/LOAD_ROOM_LIST_FAIL';
 
+const VOTE_ROOM = 'WEMProject/room/VOTE_ROOM';
+const VOTE_ROOM_SUCCESS = 'WEMProject/room/VOTE_ROOM_SUCCESS';
+const VOTE_ROOM_FAIL = 'WEMProject/room/VOTE_ROOM_FAIL';
+
+
 type GetListAction = {
   type: typeof LOAD_ROOM_LIST,
   payload: any
@@ -20,17 +25,33 @@ type GetListActionFail = {
   payload: []
 }
 
-type ActionTypes = GetListAction | GetListActionSuccess | GetListActionFail;
+type VoteRoomAction = {
+  type: typeof VOTE_ROOM,
+  payload: any
+};
+
+type VoteRoomActionSuccess = {
+  type: typeof VOTE_ROOM_SUCCESS,
+  payload: []
+}
+
+type VoteRoomActionFail = {
+  type: typeof VOTE_ROOM_FAIL,
+  payload: []
+}
+
+type ActionTypes = GetListAction | GetListActionSuccess | GetListActionFail | VoteRoomAction | VoteRoomActionSuccess | VoteRoomActionFail;
 
 // State Type
 type RoomState = {
   list: Room[],
   isLoadingList: boolean,
+  isVoting: boolean,
 }
 
 // Reducer
 const reducer: Reducer<RoomState, ActionTypes> = (
-  state = { list: [], isLoadingList: true }, action
+  state = { list: [], isLoadingList: true, isVoting: true }, action
 ) => {
   switch (action.type) {
     case LOAD_ROOM_LIST: {
@@ -40,6 +61,15 @@ const reducer: Reducer<RoomState, ActionTypes> = (
       return { ...state, list: action.payload.data, isLoadingList: false }
     }
     case LOAD_ROOM_LIST_FAIL: {
+      return { ...state, isLoadingList: false }
+    }
+    case VOTE_ROOM: {
+      return { ...state, isVoting: true };
+    }
+    case VOTE_ROOM_SUCCESS: {
+      return { ...state, isLoadingList: false }
+    }
+    case VOTE_ROOM_FAIL: {
       return { ...state, isLoadingList: false }
     }
     default: return state;
@@ -78,6 +108,50 @@ const getRoomListSuccess = (rooms) => {
 const getRoomListFail = () => {
   return {
     type: LOAD_ROOM_LIST_FAIL,
+    payload: {}
+  }
+}
+
+// Action Creators
+export const voteRoom = (id, rating) => {
+  console.log("INSIDE VOTE ROOM", id, rating);
+  return async (dispatch) => {
+    console.log("INSIDE VOTE ROOM2", id, rating);
+
+    dispatch(setRoomListLoading());
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/rooms/giveReviewById?id=${id}&rating=${rating}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) throw new Error();
+      const { rooms } = await response.json();
+      dispatch(getRoomListSuccess(rooms));
+    } catch (error) {
+      dispatch(getRoomListFail())
+    }
+  }
+}
+
+const setRoomVoting = () => {
+  return {
+    type: VOTE_ROOM,
+    payload: {}
+  }
+}
+
+const setRoomVotingSuccess = (rooms) => {
+  return {
+    type: VOTE_ROOM_SUCCESS,
+    payload: {}
+  }
+}
+
+const setRoomVotingFail = () => {
+  return {
+    type: VOTE_ROOM_FAIL,
     payload: {}
   }
 }

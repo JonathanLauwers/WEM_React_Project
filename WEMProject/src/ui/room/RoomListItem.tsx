@@ -4,16 +4,23 @@ import { styles } from './RoomListItem.styles';
 import { H1 } from '../TextHeaders';
 import { Room } from '../../data/room/room';
 import { CircledImage } from '../CircledImage';
+import { voteRoom } from '../../reducks/room';
 
 type RoomPreview = {
   id: string,
   name: string,
   happinessScore: number,
-  navigateRoom: (room: Room) => void;
-  navigateMaps: (room: Room) => void;
+  navigateRoom: (room: Room) => void,
+  navigateMaps: (room: Room) => void,
+  voteRoom: (id: string, rating: vote) => void,
 }
 
 export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.Element => {
+
+  /* const voteRoom = () => {
+    voteRoom()
+  }; */
+
   return (
     <View style={styles.container}>
 
@@ -37,7 +44,7 @@ export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.El
           <Button title="Maps" onPress={() => room.navigateMaps(room)} />
         </View>
         <View style={styles.button}>
-          <Button color="green" title="+1" onPress={() => console.log("+1")} />
+          <Button color="green" title="+1" onPress={() => room.voteRoom(room.id, "+1")} />
         </View>
         <View style={styles.button}>
           <Button color="red" title="-1" onPress={() => console.log("-1")} />

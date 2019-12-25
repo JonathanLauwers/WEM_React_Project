@@ -107,11 +107,17 @@ const reducer: Reducer<TicketState, ActionTypes> = (
 };
 
 // Action Creators
-export const getTicketList = () => {
+export const getTicketList = (assetName) => {
+  var response;
   return async (dispatch) => {
     dispatch(setTicketListLoading());
     try {
-      const response = await fetch(`http://127.0.0.1:8000/tickets`);
+      if(assetName){
+        response = await fetch(`http://127.0.0.1:8000/ticketsByAssetName?assetname=${assetName}`);
+      } else{
+        response = await fetch(`http://127.0.0.1:8000/tickets`);
+      }
+
       if (!response.ok) throw new Error();
       const { tickets }: { tickets: Ticket[] } = await response.json();
       dispatch(getTicketListSuccess(tickets));

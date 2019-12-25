@@ -47,11 +47,18 @@ const reducer: Reducer<AssetState, ActionTypes> = (
 };
 
 // Action Creators
-export const getAssetList = () => {
+export const getAssetList = (roomId) => {
+  var response;
+
   return async (dispatch) => {
     dispatch(setAssetListLoading());
     try {
-      const response = await fetch(`http://127.0.0.1:8000/assets`);
+      if(roomId){
+        response = await fetch(`http://127.0.0.1:8000/assetsByRoomId?roomId=${roomId}`);
+      } else{
+        response = await fetch(`http://127.0.0.1:8000/assets`);
+      }
+      
       if (!response.ok) throw new Error();
       const { assets }: { assets: Asset[] } = await response.json();
       dispatch(getAssetListSuccess(assets));

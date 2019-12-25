@@ -22,7 +22,7 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
   const navigateTicketDetails = (ticket: Ticket) => navigation.navigate('TicketDetail', {ticket: ticket});
   
   useEffect(() => {
-    props.getTicketList();
+    props.getTicketList(asset.name);
   }) 
 
   const renderItem = ({ item }: { item: Ticket }): JSX.Element => {
@@ -35,6 +35,7 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
   const RenderSeparator = () => <View style={styles.separator}></View>;
 
   return (
+    console.log(props.tickets),
     <View style={styles.ticketContainer}>
         <TicketListHeader></TicketListHeader>
         {props.tickets.length < 1 && props.isLoading ? (
@@ -68,7 +69,7 @@ TicketList.navigationOptions = ({navigation}) => ({
 });
 
 const mapStateToProps = state => ({ tickets: state.ticket.list, isLoading: state.ticket.isLoadingList });
-const mapDispatchToProps = dispatch => ({ getTicketList: () => dispatch(getTicketList()) });
+const mapDispatchToProps = dispatch => ({ getTicketList: (name: string) => dispatch(getTicketList(name)) });
 const TicketListPage = connect(
   mapStateToProps,
   mapDispatchToProps
