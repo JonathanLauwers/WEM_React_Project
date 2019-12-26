@@ -4,15 +4,15 @@ import { styles } from './RoomFilter.styles';
 import { H2 } from '../TextHeaders';
 
 type Props = {
-  filterRooms: any;
-  filteredRooms: Room[];
+  rooms: any;
+  filterValue: number;
 }
 
 export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element => {  
   const [numberOfVotes, setNumberOfVotes] = React.useState('');
 
   const filterRooms = () => {
-    props.filteredRooms = props.filterRooms(numberOfVotes);
+    props.rooms = props.filterRooms(numberOfVotes);
   };
 
   return (

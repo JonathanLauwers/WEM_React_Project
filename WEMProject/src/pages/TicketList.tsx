@@ -23,7 +23,7 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
   
   useEffect(() => {
     props.getTicketList(asset.name);
-  }) 
+  }, [props.tickets.id]) 
 
   const renderItem = ({ item }: { item: Ticket }): JSX.Element => {
     return (
@@ -37,7 +37,7 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
   return (
     <View style={styles.ticketContainer}>
         <TicketListHeader></TicketListHeader>
-        {props.tickets.length < 1 && props.isLoading ? (
+        {props.isLoading ? (
             <View style={styles.loader}>
               <ActivityIndicator size="large" color={Colors.darkBlue} />
             </View>

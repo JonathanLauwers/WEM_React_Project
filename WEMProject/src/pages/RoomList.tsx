@@ -27,11 +27,14 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
     const filterRooms = (happinessScore: number) => props.filterRooms(happinessScore);
 
-    console.log(filterRooms);
+    console.log("ROOMLIST",props.rooms.length);
+    console.log("ISVOTING",props.isVoting);
 
-     useEffect(() => {
+    useEffect(() => {
          props.getRoomList();
-     }) 
+     }, [props.rooms.length]) 
+
+
 
     const renderItem = ({ item }: { item: Room }): JSX.Element => {
         return (
@@ -46,7 +49,11 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     return (
         <View>   
             <RoomFilter filterRooms={filterRooms} rooms={props.rooms}/>
-            {props.rooms && props.rooms.length > 0 ?  
+            {props.isLoading || props.isVoting ?  
+            <View style={styles.loader}>
+                <ActivityIndicator size="large" color={Colors.darkBlue}/> 
+            </View>
+            : 
             <View>
                 <FlatList 
                     data={props.rooms}
@@ -54,12 +61,8 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
                     ItemSeparatorComponent={RenderSeparator} 
                     keyExtractor={room => room.id} 
                 />
-            </View> : 
-            <View style={styles.loader}>
-                <ActivityIndicator size="large" color={Colors.darkBlue}/> 
+            </View> }
             </View>
-            }
-        </View>
 
     );
 };

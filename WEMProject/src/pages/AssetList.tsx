@@ -24,7 +24,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
 
   useEffect(() => {
     props.getAssetList(room.id);
-  }) 
+  }, [props.assets.id])
   
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
@@ -39,7 +39,7 @@ const RenderSeparator = () => <View style={styles.separator}></View>;
     return (
       <View style={styles.assetContainer}>
         <AssetListHeader happinessScore={room.happinessScore}></AssetListHeader>
-        {props.assets.length < 1 && props.isLoading ? (
+        {props.isLoading ? (
             <View style={styles.loader}>
                 <ActivityIndicator size="large" color={Colors.darkBlue} />
             </View>

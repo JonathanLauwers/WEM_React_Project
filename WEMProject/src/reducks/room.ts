@@ -78,7 +78,7 @@ type RoomState = {
 
 // Reducer
 const reducer: Reducer<RoomState, ActionTypes> = (
-  state = { list: [], isLoadingList: true, isVoting: true }, action
+  state = { list: [], isLoadingList: true, isVoting: false }, action
 ) => {
   switch (action.type) {
     case LOAD_ROOM_LIST: {
@@ -94,10 +94,10 @@ const reducer: Reducer<RoomState, ActionTypes> = (
       return { ...state, isVoting: true };
     }
     case VOTE_ROOM_SUCCESS: {
-      return { ...state, isLoadingList: false }
+      return { ...state, isVoting: false }
     }
     case VOTE_ROOM_FAIL: {
-      return { ...state, isLoadingList: false }
+      return { ...state, isVoting: false }
     }
     case FILTER_ROOM_LIST: {
       return { ...state, isFilteringList: true };
