@@ -7,7 +7,7 @@ import { Colors } from '../styles/_colors';
 import { NavigationStackOptions } from 'react-navigation-stack';
 import { useNavigation } from '../hooks';
 import { Room } from '../data';
-import { getRoomList, voteRoom } from '../reducks/room';
+import { getRoomList, voteRoom, filterRoomList} from '../reducks/room';
 import { H2 } from '../ui/TextHeaders';
 import { connect } from 'react-redux';
 
@@ -27,6 +27,8 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
     const filterRooms = (happinessScore: number) => props.filterRooms(happinessScore);
 
+    console.log(filterRooms);
+
      useEffect(() => {
          props.getRoomList();
      }) 
@@ -43,9 +45,9 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
 
     return (
         <View>   
+            <RoomFilter filterRooms={filterRooms} rooms={props.rooms}/>
             {props.rooms && props.rooms.length > 0 ?  
             <View>
-                <RoomFilter filterRooms={filterRooms} rooms={props.rooms}/>
                 <FlatList 
                     data={props.rooms}
                     renderItem={renderItem} 
@@ -77,7 +79,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getRoomList: () => dispatch(getRoomList()),
         postVote: (id: string, rating: number) => dispatch(voteRoom(id, rating)),
-        filterRooms: (happinessScore: number) => dispatch(filterRooms(happinessScore)),
+        filterRooms: (happinessScore: number) => dispatch(filterRoomList(happinessScore)),
     };
 }
 const RoomListPage = connect(

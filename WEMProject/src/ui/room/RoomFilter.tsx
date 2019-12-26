@@ -5,15 +5,14 @@ import { H2 } from '../TextHeaders';
 
 type Props = {
   filterRooms: any;
-  rooms: Room[];
+  filteredRooms: Room[];
 }
 
-export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element => {
-  console.log("PROPS", props);
+export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element => {  
   const [numberOfVotes, setNumberOfVotes] = React.useState('');
 
   const filterRooms = () => {
-    props.rooms = props.filterRooms(numberOfVotes);
+    props.filteredRooms = props.filterRooms(numberOfVotes);
   };
 
   return (
@@ -27,7 +26,7 @@ export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element =
           onChangeText={text => setNumberOfVotes(text)}
         />
         <View style={styles.button}>
-          <Button title="Filter score" onPress={() => props.filterRooms(room.id)}  />
+          <Button title="Filter" onPress={() => props.filterRooms(numberOfVotes)}  />
         </View>
     </View>
   );
