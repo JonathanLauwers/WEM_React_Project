@@ -41,7 +41,7 @@ export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.El
           <Button title="Maps" onPress={() => room.navigateMaps(room)} />
         </View>
         <View style={styles.button}>
-          <Button color="green" title="+1" disabled={voted} onPress={() => {room.voteRoom(room.id, 1), setVoted(true), console.log("PRESSED ROON", room)}} /> 
+          <Button color="green" title="+1" disabled={voted} onPress={() => {room.voteRoom(room.id, 1), setVoted(true)}} /> 
         </View>
         <View style={styles.button}>
           <Button color="red" title="-1" disabled={voted} onPress={() => {room.voteRoom(room.id, -1), setVoted(true)}} />

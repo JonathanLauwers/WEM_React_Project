@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 
 
 type Props = {
+    rooms: Room[];
     isLoading: boolean;
     getRoomList: () => (dispatch: any) => Promise<void>;
     postVote: any;
@@ -21,20 +22,18 @@ type Props = {
 }
 
 const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
+    console.log("START ROOMLIST", props.rooms);
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
-    const filterRooms = (happinessScore: number) => props.filterRooms(happinessScore);
+    //const filterRooms = (happinessScore: number) => props.filterRooms(happinessScore);
 
-    console.log("ROOMLIST",props.rooms.length);
-    console.log("ISVOTING",props.isVoting);
-
+    console.log("IS LOADING", props.isLoading);
+    console.log("ROOMS", props.rooms);
     useEffect(() => {
-         props.getRoomList();
-     }, [props.rooms.length]) 
-
-
+        props.getRoomList();
+     }, []);
 
     const renderItem = ({ item }: { item: Room }): JSX.Element => {
         return (
@@ -48,8 +47,8 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
 
     return (
         <View>   
-            <RoomFilter filterRooms={filterRooms} rooms={props.rooms}/>
-            {props.isLoading || props.isVoting ?  
+            {/* <RoomFilter filterRooms={filterRooms} rooms={props.rooms}/> */}
+            {props.isLoading || props.isVoting ?
             <View style={styles.loader}>
                 <ActivityIndicator size="large" color={Colors.darkBlue}/> 
             </View>
@@ -63,7 +62,6 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
                 />
             </View> }
             </View>
-
     );
 };
 
