@@ -9,6 +9,9 @@ const VOTE_ROOM = 'WEMProject/room/VOTE_ROOM';
 const VOTE_ROOM_SUCCESS = 'WEMProject/room/VOTE_ROOM_SUCCESS';
 const VOTE_ROOM_FAIL = 'WEMProject/room/VOTE_ROOM_FAIL';
 
+const FILTER_ROOM_LIST = 'WEMProject/room/FILTER_ROOM_LIST';
+const FILTER_ROOM_LIST_SUCCESS = 'WEMProject/room/FILTER_ROOM_LIST_SUCCESS';
+const FILTER_ROOM_LIST_FAIL = 'WEMProject/room/FILTER_ROOM_LIST_FAIL';
 
 type GetListAction = {
   type: typeof LOAD_ROOM_LIST,
@@ -40,13 +43,37 @@ type VoteRoomActionFail = {
   payload: []
 }
 
-type ActionTypes = GetListAction | GetListActionSuccess | GetListActionFail | VoteRoomAction | VoteRoomActionSuccess | VoteRoomActionFail;
+type FilterListAction = {
+  type: typeof FILTER_ROOM_LIST,
+  payload: any
+};
+
+type FilterActionSuccess = {
+  type: typeof FILTER_ROOM_LIST_SUCCESS,
+  payload: { data: Room[] }
+}
+
+type FilterActionFail = {
+  type: typeof FILTER_ROOM_LIST_FAIL,
+  payload: []
+}
+
+type ActionTypes = GetListAction | 
+  GetListActionSuccess | 
+  GetListActionFail | 
+  VoteRoomAction | 
+  VoteRoomActionSuccess | 
+  VoteRoomActionFail |
+  FilterListAction |
+  FilterActionSuccess |
+  FilterActionFail;
 
 // State Type
 type RoomState = {
   list: Room[],
   isLoadingList: boolean,
   isVoting: boolean,
+  isFilteringList: boolean,
 }
 
 // Reducer
@@ -71,6 +98,15 @@ const reducer: Reducer<RoomState, ActionTypes> = (
     }
     case VOTE_ROOM_FAIL: {
       return { ...state, isLoadingList: false }
+    }
+    case FILTER_ROOM_LIST: {
+      return { ...state, isFilteringList: true };
+    }
+    case FILTER_ROOM_LIST_SUCCESS: {
+      return { ...state, list: action.payload.data, isFilteringList: false }
+    }
+    case FILTER_ROOM_LIST_FAIL: {
+      return { ...state, isFilteringList: false }
     }
     default: return state;
   }
@@ -149,6 +185,42 @@ const setRoomVotingSuccess = (rooms) => {
 const setRoomVotingFail = () => {
   return {
     type: VOTE_ROOM_FAIL,
+    payload: {}
+  }
+}
+
+// Action Creators
+export const filterRoomList = (happinessScore) => {
+  return async (dispatch) => {
+    dispatch(setRoomListLoading());
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/rooms/filter?maxhappinessscore=${happinessScore}`);
+      if (!response.ok) throw new Error();
+      const { rooms } = await response.json();
+      dispatch(getRoomListSuccess(rooms));
+    } catch (error) {
+      dispatch(getRoomListFail())
+    }
+  }
+}
+
+const filterRoomListLoading = () => {
+  return {
+    type: FILTER_ROOM_LIST,
+    payload: {}
+  }
+}
+
+const filterRoomListSuccess = (rooms) => {
+  return {
+    type: FILTER_ROOM_LIST_SUCCESS,
+    payload: { data: rooms }
+  }
+}
+
+const filterRoomListFail = () => {
+  return {
+    type: FILTER_ROOM_LIST_FAIL,
     payload: {}
   }
 }
