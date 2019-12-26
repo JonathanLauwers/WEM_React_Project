@@ -7,7 +7,7 @@ import { Colors } from '../styles/_colors';
 import { NavigationStackOptions } from 'react-navigation-stack';
 import { useNavigation } from '../hooks';
 import { Room } from '../data';
-import { getRoomList } from '../reducks/room';
+import { getRoomList, voteRoom } from '../reducks/room';
 import { H2 } from '../ui/TextHeaders';
 import { connect } from 'react-redux';
 
@@ -16,24 +16,25 @@ type Props = {
     rooms: Room[];
     isLoading: boolean;
     getRoomList: () => (dispatch: any) => Promise<void>;
-    voteRoom: () => (dispatch: any) => Promise<void>;
+    postVote: any;
+    isVoting: boolean;
 }
 
 const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
+    //const voteTicket = (id: string, rating: number) => props.postVote(id, rating);
+    const voteTicket = (id: string, rating: number) => props.postVote(id, rating);
 
      useEffect(() => {
          props.getRoomList();
      }) 
 
-    const voteTicket = (id: string, rating: number) => props.voteRoom(id, rating);
-
     const renderItem = ({ item }: { item: Room }): JSX.Element => {
         return (
             <View style={styles.roomContainer}>
-                <RoomListItem {...item} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteTicket={voteTicket}/>
+                <RoomListItem {...item} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteRoom={voteTicket}/>
             </View>
         );
     };
@@ -71,8 +72,13 @@ RoomList.navigationOptions = {
     }
 };
 
-const mapStateToProps = state => ({ rooms: state.room.list, isLoading: state.room.isLoadingList });
-const mapDispatchToProps = dispatch => ({ getRoomList: () => dispatch(getRoomList()), voteRoom: (id: string, rating: number) => dispatch(voteRoom(id, rating)) });
+const mapStateToProps = state => ({ rooms: state.room.list, isLoading: state.room.isLoadingList, isVoting: state.room.isVoting });
+const mapDispatchToProps = dispatch => {
+    return {
+        getRoomList: () => dispatch(getRoomList()),
+        postVote: (id: string, rating: number) => dispatch(voteRoom(id, rating)),
+    };
+}
 const RoomListPage = connect(
   mapStateToProps,
   mapDispatchToProps

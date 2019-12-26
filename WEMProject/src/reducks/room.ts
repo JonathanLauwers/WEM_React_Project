@@ -113,11 +113,8 @@ const getRoomListFail = () => {
 }
 
 // Action Creators
-export const voteRoom = (id, rating) => {
-  console.log("INSIDE VOTE ROOM", id, rating);
-  return async (dispatch) => {
-    console.log("INSIDE VOTE ROOM2", id, rating);
-
+export const voteRoom = (id: string, rating: number) => {
+  return async (dispatch, getState) => {
     dispatch(setRoomListLoading());
     try {
       const response = await fetch(`http://127.0.0.1:8000/rooms/giveReviewById?id=${id}&rating=${rating}`, {

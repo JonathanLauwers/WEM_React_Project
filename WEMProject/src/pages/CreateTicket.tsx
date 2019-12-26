@@ -10,10 +10,10 @@ import { connect } from 'react-redux';
 import { createTicket } from '../reducks/ticket';
 
 type Props = {
-  asset: Asset;
-  postTicket: any;
-  isLoading: boolean;
-};
+  asset: Asset,
+  postTicket: any,
+  isLoading: boolean,
+}
 
 type TicketData = {
   assetId: string,
@@ -21,7 +21,6 @@ type TicketData = {
 }
 
 export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
-  
   const [description, setDescription] = React.useState('');
 
   const navigation = useNavigation();
