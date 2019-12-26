@@ -16,6 +16,7 @@ type RoomPreview = {
 }
 
 export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.Element => {
+  const [voted, setVoted] = React.useState(false);
 
   return (
     <View style={styles.container}>
@@ -40,10 +41,10 @@ export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.El
           <Button title="Maps" onPress={() => room.navigateMaps(room)} />
         </View>
         <View style={styles.button}>
-          <Button color="green" title="+1" onPress={() => room.voteRoom(room.id, 1)} />
+          <Button color="green" title="+1" disabled={voted} onPress={() => {room.voteRoom(room.id, 1), setVoted(true)}} /> 
         </View>
         <View style={styles.button}>
-          <Button color="red" title="-1" onPress={() => room.voteRoom(room.id, -1)} />
+          <Button color="red" title="-1" disabled={voted} onPress={() => {room.voteRoom(room.id, -1), setVoted(true)}} />
         </View>
       </View>
     </View>

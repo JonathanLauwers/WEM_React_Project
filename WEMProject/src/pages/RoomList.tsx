@@ -24,7 +24,6 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
-    //const voteTicket = (id: string, rating: number) => props.postVote(id, rating);
     const voteTicket = (id: string, rating: number) => props.postVote(id, rating);
 
      useEffect(() => {

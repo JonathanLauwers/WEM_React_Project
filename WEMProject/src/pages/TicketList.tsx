@@ -35,7 +35,6 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
   const RenderSeparator = () => <View style={styles.separator}></View>;
 
   return (
-    console.log(props.tickets),
     <View style={styles.ticketContainer}>
         <TicketListHeader></TicketListHeader>
         {props.tickets.length < 1 && props.isLoading ? (
