@@ -24,7 +24,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
 
   useEffect(() => {
     props.getAssetList(room.id);
-  }, [props.assets.id])
+  }, [])
   
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (

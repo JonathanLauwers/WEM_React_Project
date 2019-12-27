@@ -27,7 +27,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
-    //const filterRooms = (happinessScore: number) => props.filterRooms(happinessScore);
+    const filterRooms = (happinessScore: number) => props.filterRooms(happinessScore);
 
     console.log("IS LOADING", props.isLoading);
     console.log("ROOMS", props.rooms);
@@ -47,7 +47,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
 
     return (
         <View>   
-            {/* <RoomFilter filterRooms={filterRooms} rooms={props.rooms}/> */}
+            <RoomFilter filterRooms={filterRooms} rooms={props.rooms}/>
             {props.isLoading || props.isVoting ?
             <View style={styles.loader}>
                 <ActivityIndicator size="large" color={Colors.darkBlue}/> 

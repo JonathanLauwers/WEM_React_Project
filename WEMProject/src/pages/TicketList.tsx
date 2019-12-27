@@ -23,7 +23,7 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
   
   useEffect(() => {
     props.getTicketList(asset.name);
-  }, [props.tickets.id]) 
+  }, []) 
 
   const renderItem = ({ item }: { item: Ticket }): JSX.Element => {
     return (
