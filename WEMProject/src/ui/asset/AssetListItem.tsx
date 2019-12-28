@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Button } from 'react-native';
 import { styles } from './AssetListItem.styles';
 import { Subtitle } from '../TextHeaders';
 import { Asset } from '../../data/asset/asset';
@@ -7,6 +7,7 @@ import { Asset } from '../../data/asset/asset';
 type AssetPreview = {
   asset: Asset;
   navigateAsset: (asset: Asset) => void;
+  navigateCamera: () => void;
 }
 
 export const AssetListItem: React.FunctionComponent<AssetPreview> = (asset): JSX.Element => {
@@ -17,6 +18,7 @@ export const AssetListItem: React.FunctionComponent<AssetPreview> = (asset): JSX
             <Subtitle>{asset.asset.name}</Subtitle>
           </View>
       </TouchableOpacity>
+      <Button title="Add picture" onPress={() => asset.navigateCamera()}></Button>
     </View>
   );
 };

@@ -6,6 +6,8 @@ import  RoomListPage  from './src/pages/RoomList';
 import  AssetListPage from './src/pages/AssetList';
 import  TicketListPage from './src/pages/TicketList';
 import { TicketDetail } from './src/pages/TicketDetail';
+import { Camera } from './src/pages/Camera';
+
 import CreateTicketPage from './src/pages/CreateTicket';
 import AllAssetsListPage from './src/pages/AllAssetsList';
 import GoogleMaps from './src/pages/GoogleMaps';
@@ -28,6 +30,9 @@ export default function App() {
     },
     Maps: {
       screen: GoogleMaps
+    },
+    Camera: {
+      screen: Camera
     },
     TicketDetail: {
       screen: TicketDetail

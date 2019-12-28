@@ -21,6 +21,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
   const navigation = useNavigation();
   const { room } = navigation.state.params;
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
+  const navigateCamera = () => navigation.navigate('Camera');
 
   useEffect(() => {
     props.getAssetList(room.id);
@@ -29,7 +30,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
     return (
         <View style={styles.assetContainer}>
-            <AssetListItem asset={item} navigateAsset={navigateTicket}/>
+            <AssetListItem asset={item} navigateAsset={navigateTicket} navigateCamera={navigateCamera}/>
         </View>
     );
 };
