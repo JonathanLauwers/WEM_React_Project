@@ -8,6 +8,7 @@ import { Asset, Ticket } from '../data';
 import { H2, H1 } from '../ui/TextHeaders';
 import { connect } from 'react-redux';
 import { createTicket } from '../reducks/ticket';
+import { createNotification } from '../utils/NotificationService'
 
 type Props = {
   asset: Asset,
@@ -34,6 +35,10 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
     props.postTicket(ticket);
   };
 
+  notification = () => {
+    createNotification("Thank you for creating a new ticket!", "Web and mobile!");
+  }
+
   return (
     <View style={{ padding: 8 }}>
       <H1>New ticket for asset {asset.asset.id}</H1>
@@ -50,8 +55,8 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
             value={description}
             onChangeText={text => setDescription(text)}
             editable={!props.isLoading}
-          />     
-          <Button title="Submit" color={Colors.primary} onPress={() => createTicket()}></Button>
+          /> 
+          <Button title="Submit" color={Colors.primary} onPress={() => {createTicket(), notification()}}></Button>
         </View>
         : 
         <View style={styles.loader}>
