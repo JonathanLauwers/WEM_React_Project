@@ -16,9 +16,11 @@ export const AssetListItem: React.FunctionComponent<AssetPreview> = (asset): JSX
       <TouchableOpacity onPress={() => asset.navigateAsset(asset.asset)}>
           <View style={styles.listItem}>
             <Subtitle>{asset.asset.name}</Subtitle>
+            <TouchableOpacity onPress={() => asset.navigateCamera()}>
+              <Subtitle>Add picture</Subtitle>
+            </TouchableOpacity>
           </View>
       </TouchableOpacity>
-      <Button title="Add picture" onPress={() => asset.navigateCamera()}></Button>
     </View>
   );
 };
