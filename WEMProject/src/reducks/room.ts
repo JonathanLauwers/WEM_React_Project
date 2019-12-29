@@ -161,8 +161,7 @@ export const voteRoom = (id: string, rating: number) => {
         },
       });
       if (!response.ok) throw new Error();
-      const { rooms } = await response.json();
-      dispatch(getRoomListSuccess(rooms));
+      dispatch(getRoomListSuccess());
     } catch (error) {
       dispatch(getRoomListFail())
     }

@@ -35,8 +35,6 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
      }, []);
 
     const renderItem = ({ item, index }: { item: Room }): JSX.Element => {
-        console.log("INDE",index);
-        console.log("RENDERTIEM",item);
         return (
             <View style={styles.roomContainer}>
                 <RoomListItem {...item} index={index} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteRoom={voteRoom}/>
