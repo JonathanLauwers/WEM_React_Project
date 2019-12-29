@@ -11,6 +11,8 @@ import { getRoomList, voteRoom, filterRoomList} from '../reducks/room';
 import { H2 } from '../ui/TextHeaders';
 import { connect } from 'react-redux';
 
+import { TransitionView } from '../animations/TransitionView'
+
 
 type Props = {
     rooms: Room[];
@@ -22,23 +24,22 @@ type Props = {
 }
 
 const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
-    console.log("START ROOMLIST", props.rooms);
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
     const filterRooms = (happinessScore: number) => props.filterRooms(happinessScore);
 
-    console.log("IS LOADING", props.isLoading);
-    console.log("ROOMS", props.rooms);
     useEffect(() => {
         props.getRoomList();
      }, []);
 
-    const renderItem = ({ item }: { item: Room }): JSX.Element => {
+    const renderItem = ({ item, index }: { item: Room }): JSX.Element => {
+        console.log("INDE",index);
+        console.log("RENDERTIEM",item);
         return (
             <View style={styles.roomContainer}>
-                <RoomListItem {...item} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteRoom={voteRoom}/>
+                <RoomListItem {...item} index={index} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteRoom={voteRoom}/>
             </View>
         );
     };
@@ -47,6 +48,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
 
     return (
         <View>   
+            <TransitionView>
             <RoomFilter filterRooms={filterRooms} rooms={props.rooms}/>
             {props.isLoading || props.isVoting ?
             <View style={styles.loader}>
@@ -56,12 +58,13 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
             <View>
                 <FlatList 
                     data={props.rooms}
-                    renderItem={renderItem} 
+                    renderItem={renderItem}
                     ItemSeparatorComponent={RenderSeparator} 
                     keyExtractor={room => room.id} 
                 />
             </View> }
-            </View>
+            </TransitionView>
+        </View>
     );
 };
 

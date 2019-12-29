@@ -5,11 +5,13 @@ import { H1 } from '../TextHeaders';
 import { Room } from '../../data/room/room';
 import { CircledImage } from '../CircledImage';
 import { voteRoom } from '../../reducks/room';
+import { ListItemTransition } from '../../animations/ListItemTransition'
 
 type RoomPreview = {
   id: string,
   name: string,
   happinessScore: number,
+  index: number,
   navigateRoom: (room: Room) => void,
   navigateMaps: (room: Room) => void,
   voteRoom: (id: string, rating: number) => void,
@@ -19,8 +21,7 @@ export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.El
   const [voted, setVoted] = React.useState(false);
 
   return (
-    <View style={styles.container}>
-
+    <ListItemTransition style={styles.container} index={room.index}>
       <View style={styles.leftContainer}>
         <View style={styles.imageContainer}>
           <CircledImage size={36} uri="https://firebasestorage.googleapis.com/v0/b/fiesjev2.appspot.com/o/uploads%2F1560264396955.jpg?alt=media&token=256936ae-c394-411e-945f-a61f5301bd2d" />
@@ -47,6 +48,6 @@ export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.El
           <Button color="red" title="-1" disabled={voted} onPress={() => {room.voteRoom(room.id, -1), setVoted(true)}} />
         </View>
       </View>
-    </View>
+    </ListItemTransition>
   );
 };
