@@ -10,6 +10,7 @@ import { Asset } from '../data';
 import { getAssetListById } from '../reducks/asset';
 import { AssetListItem } from '../ui';
 import { connect } from 'react-redux';
+import TransitionView from '../animations/TransitionView';
 
 type Props = {
   assets: Asset[];
@@ -27,10 +28,10 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
     props.getAssetListById(room.id);
   }, [])
   
-  const renderItem = ({ item }: { item: Asset }): JSX.Element => {
+  const renderItem = ({ item, index }: { item: Asset }): JSX.Element => {
     return (
         <View style={styles.assetContainer}>
-            <AssetListItem asset={item} navigateAsset={navigateTicket} navigateCamera={navigateCamera}/>
+            <AssetListItem asset={item} index={index} navigateAsset={navigateTicket} navigateCamera={navigateCamera}/>
         </View>
     );
 };
@@ -38,7 +39,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
 const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
-      <View style={styles.assetContainer}>
+      <TransitionView style={styles.assetContainer}>
         <AssetListHeader happinessScore={room.happinessScore}></AssetListHeader>
         {props.isLoading ? (
             <View style={styles.loader}>
@@ -49,7 +50,7 @@ const RenderSeparator = () => <View style={styles.separator}></View>;
               <FlatList data={props.assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
               </View>
             )}
-        </View>
+        </TransitionView>
     );
   }
 

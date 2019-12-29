@@ -10,6 +10,8 @@ import { Asset } from '../data';
 import { getAssetList } from '../reducks/asset';
 import { AssetListItem } from '../ui';
 import { connect } from 'react-redux';
+import TransitionView from '../animations/TransitionView';
+import RenderSeparatorTransition from '../animations/RenderSeparatorTransition';
 
 type Props = {
   assets: Asset[];
@@ -26,19 +28,19 @@ export const AllAssetsList: React.FunctionComponent & { navigationOptions?: Navi
     props.getAssetList();
   }) 
 
-  const renderItem = ({ item }: { item: Asset }): JSX.Element => {
+  const renderItem = ({ item, index }: { item: Asset }): JSX.Element => {
     return (
         <View style={styles.assetContainer}>
-            <AssetListItem asset={item} navigateAsset={navigateTicket}/>
+            <AssetListItem asset={item} index={index} navigateAsset={navigateTicket}/>
         </View>
     );
 };
 const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
-      <View style={styles.assetContainer}>
-        <FlatList data={props.assets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
-      </View>
+      <TransitionView style={styles.assetContainer}>
+        <FlatList data={props.assets} renderItem={renderItem}  ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
+      </TransitionView>
     );
   }
 

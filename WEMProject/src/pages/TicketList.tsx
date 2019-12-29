@@ -9,6 +9,7 @@ import { TICKETS } from '../../assets/tickets.js';
 import { Ticket } from '../data';
 import { getTicketList } from '../reducks/ticket';
 import { connect } from 'react-redux';
+import TransitionView from '../animations/TransitionView';
 
 type Props = {
   tickets: Ticket[];
@@ -25,17 +26,17 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
     props.getTicketList(asset.name);
   }, []) 
 
-  const renderItem = ({ item }: { item: Ticket }): JSX.Element => {
+  const renderItem = ({ item, index }: { item: Ticket }): JSX.Element => {
     return (
       <View style={styles.ticketContainer}>
-        <TicketListItem ticket={item} navigateTicketDetails={navigateTicketDetails}/>
+        <TicketListItem ticket={item} index={index} navigateTicketDetails={navigateTicketDetails}/>
       </View>
     );
   };
   const RenderSeparator = () => <View style={styles.separator}></View>;
 
   return (
-    <View style={styles.ticketContainer}>
+    <TransitionView style={styles.ticketContainer}>
         <TicketListHeader></TicketListHeader>
         {props.isLoading ? (
             <View style={styles.loader}>
@@ -45,7 +46,7 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
           <View >
             <FlatList data={props.tickets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={ticket => ticket.id} />
           </View> )}
-    </View>
+    </TransitionView>
   );
 }
 
