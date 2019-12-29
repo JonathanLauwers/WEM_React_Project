@@ -5,6 +5,10 @@ const LOAD_ASSET_LIST = 'WEMProject/asset/LOAD_ASSET_LIST';
 const LOAD_ASSET_LIST_SUCCESS = 'WEMProject/asset/LOAD_ASSET_LIST_SUCCESS';
 const LOAD_ASSET_LIST_FAIL = 'WEMProject/asset/LOAD_ASSET_LIST_FAIL';
 
+const LOAD_ASSET_LIST_BY_ID = 'WEMProject/asset/LOAD_ASSET_LIST_BY_ID';
+const LOAD_ASSET_LIST_BY_ID_SUCCESS = 'WEMProject/asset/LOAD_ASSET_LIST_BY_ID_SUCCESS';
+const LOAD_ASSET_LIST_BY_ID_FAIL = 'WEMProject/asset/LOAD_ASSET_LIST_BY_ID_FAIL';
+
 type GetListAction = {
   type: typeof LOAD_ASSET_LIST,
   payload: any
@@ -20,17 +24,36 @@ type GetListActionFail = {
   payload: []
 }
 
-type ActionTypes = GetListAction | GetListActionSuccess | GetListActionFail;
+type GetListByIdAction = {
+  type: typeof LOAD_ASSET_LIST_BY_ID,
+  payload: any
+};
+
+
+type GetListByIdActionSuccess = {
+  type: typeof LOAD_ASSET_LIST_BY_ID_SUCCESS,
+  payload: { data: Asset[] }
+}
+
+type GetListByIdActionFail = {
+  type: typeof LOAD_ASSET_LIST_BY_ID_FAIL,
+  payload: []
+}
+
+type ActionTypes = GetListAction | GetListActionSuccess | GetListActionFail | GetListByIdAction | GetListByIdActionSuccess | GetListByIdActionFail;
 
 // State Type
 type AssetState = {
   list: Asset[],
+  listById: Asset[],
   isLoadingList: boolean,
+  isLoadingListById: boolean,
+
 }
 
 // Reducer
 const reducer: Reducer<AssetState, ActionTypes> = (
-  state = { list: [], isLoadingList: true }, action
+  state = { list: [], listById: [], isLoadingList: true }, action
 ) => {
   switch (action.type) {
     case LOAD_ASSET_LIST: {
@@ -41,6 +64,16 @@ const reducer: Reducer<AssetState, ActionTypes> = (
     }
     case LOAD_ASSET_LIST_FAIL: {
       return { ...state, isLoadingList: false }
+    }
+
+    case LOAD_ASSET_LIST_BY_ID: {
+      return { ...state, isLoadingListById: true }
+    }    
+    case LOAD_ASSET_LIST_BY_ID_SUCCESS: {
+      return { ...state, listById: action.payload.data, isLoadingListById: false }
+    }
+    case LOAD_ASSET_LIST_BY_ID_FAIL: {
+      return { ...state, isLoadingListById: false }
     }
     default: return state;
   }
@@ -86,6 +119,45 @@ const getAssetListFail = () => {
   return {
     type: LOAD_ASSET_LIST_FAIL,
     payload: {}
+  }
+}
+
+// Action Creators
+export const getAssetListById = (roomId) => {
+  var response;
+
+  return async (dispatch) => {
+    dispatch(setAssetListByIdLoading());
+    try {
+      response = await fetch(`http://127.0.0.1:8000/assetsByRoomId?roomId=${roomId}`);
+      
+      if (!response.ok) throw new Error();
+      const { assets }: { assets: Asset[] } = await response.json();
+      dispatch(getAssetListByIdSuccess(assets));
+    } catch (error) {
+      dispatch(getAssetListByIdFail())
+    }
+  }
+}
+
+const setAssetListByIdLoading = () => {
+  return {
+    type: LOAD_ASSET_LIST_BY_ID,
+    payload: { }
+  }
+}
+
+const getAssetListByIdSuccess = (assets: Asset[]) => {
+  return {
+    type: LOAD_ASSET_LIST_BY_ID_SUCCESS,
+    payload: { data: assets }
+  }
+}
+
+const getAssetListByIdFail = () => {
+  return {
+    type: LOAD_ASSET_LIST_BY_ID_FAIL,
+    payload: { }
   }
 }
 

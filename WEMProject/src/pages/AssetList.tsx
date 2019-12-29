@@ -7,14 +7,14 @@ import { NavigationStackOptions } from 'react-navigation-stack';
 import { AssetListHeader } from '../ui';
 import { ASSETS } from '../../assets/assets.js';
 import { Asset } from '../data';
-import { getAssetList } from '../reducks/asset';
+import { getAssetListById } from '../reducks/asset';
 import { AssetListItem } from '../ui';
 import { connect } from 'react-redux';
 
 type Props = {
   assets: Asset[];
   isLoading: boolean;
-  getAssetList: () => (dispatch: any) => Promise<void>;
+  getAssetListById: () => (dispatch: any) => Promise<void>;
 }
 
 export const AssetList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
@@ -24,7 +24,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
   const navigateCamera = () => navigation.navigate('Camera');
 
   useEffect(() => {
-    props.getAssetList(room.id);
+    props.getAssetListById(room.id);
   }, [])
   
   const renderItem = ({ item }: { item: Asset }): JSX.Element => {
@@ -72,8 +72,8 @@ AssetList.navigationOptions = ({navigation}) => ({
   )
 });
 
-const mapStateToProps = state => ({ assets: state.asset.list, isLoading: state.asset.isLoadingList });
-const mapDispatchToProps = dispatch => ({ getAssetList: (id: string) => dispatch(getAssetList(id)) });
+const mapStateToProps = state => ({ assets: state.asset.listById, isLoading: state.asset.isLoadingListById });
+const mapDispatchToProps = dispatch => ({ getAssetListById: (id: string) => dispatch(getAssetListById(id)) });
 const AssetListPage = connect(
   mapStateToProps,
   mapDispatchToProps

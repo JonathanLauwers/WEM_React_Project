@@ -152,7 +152,7 @@ const getRoomListFail = () => {
 // Action Creators
 export const voteRoom = (id: string, rating: number) => {
   return async (dispatch, getState) => {
-    dispatch(setRoomListLoading());
+    dispatch(setRoomVoting());
     try {
       const response = await fetch(`http://127.0.0.1:8000/rooms/giveReviewById?id=${id}&rating=${rating}`, {
         method: 'POST',
@@ -161,9 +161,10 @@ export const voteRoom = (id: string, rating: number) => {
         },
       });
       if (!response.ok) throw new Error();
-      dispatch(getRoomListSuccess());
+      dispatch(setRoomVotingSuccess());
+      dispatch(getRoomList());
     } catch (error) {
-      dispatch(getRoomListFail())
+      dispatch(setRoomVotingFail())
     }
   }
 }
