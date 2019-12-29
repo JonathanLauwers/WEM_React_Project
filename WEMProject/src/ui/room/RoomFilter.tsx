@@ -4,29 +4,23 @@ import { styles } from './RoomFilter.styles';
 import { H2 } from '../TextHeaders';
 
 type Props = {
-  rooms: any;
-  filterValue: number;
+  filterRooms: any
 }
 
 export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element => {  
-  const [numberOfVotes, setNumberOfVotes] = React.useState('');
-
-  const filterRooms = () => {
-    props.rooms = props.filterRooms(numberOfVotes);
-  };
-
+  const [happinessScore, setHappinessScore] = React.useState('');
   return (
     <View style={styles.container}>
         <TextInput
-          key="numberOfVotes"
+          key="happinessScore"
           style={styles.input}
           keyboardType="numeric"
           placeholder="0"
-          value={numberOfVotes}
-          onChangeText={text => setNumberOfVotes(text)}
+          value={happinessScore}
+          onChangeText={text => setHappinessScore(text)}
         />
         <View style={styles.button}>
-          <Button title="Filter" onPress={() => props.filterRooms(numberOfVotes)}  />
+          <Button title="Filter" onPress={() => props.filterRooms(happinessScore)}  />
         </View>
     </View>
   );

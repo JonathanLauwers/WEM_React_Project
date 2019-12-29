@@ -20,15 +20,20 @@ type Props = {
     getRoomList: () => (dispatch: any) => Promise<void>;
     postVote: any;
     isVoting: boolean;
-    filterRooms: any;
 }
 
 const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
+    const [filteredRooms, setFilteredRooms] = React.useState();
+
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
-    const filterRooms = (happinessScore: number) => props.filterRooms(happinessScore);
+    const filterRooms = (filterVal: number) => {
+        const filteredList = props.rooms.filter(room => parseInt(room.happinessScore) <= parseInt(filterVal));
+        setFilteredRooms(filteredList);  
+    };
+
 
     useEffect(() => {
         props.getRoomList();
@@ -43,11 +48,10 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     };
 
     const RenderSeparator = () => <View style={styles.separator}></View>;
-
     return (
         <View>   
             <TransitionView>
-            <RoomFilter filterRooms={filterRooms} rooms={props.rooms}/>
+            <RoomFilter filterRooms={filterRooms}/>
             {props.isLoading || props.isVoting ?
             <View style={styles.loader}>
                 <ActivityIndicator size="large" color={Colors.darkBlue}/> 
@@ -55,7 +59,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
             : 
             <View>
                 <FlatList 
-                    data={props.rooms}
+                    data={filteredRooms ? filteredRooms : props.rooms}
                     renderItem={renderItem}
                     ItemSeparatorComponent={RenderSeparator} 
                     keyExtractor={room => room.id} 
@@ -81,7 +85,6 @@ const mapDispatchToProps = dispatch => {
     return {
         getRoomList: () => dispatch(getRoomList()),
         postVote: (id: string, rating: number) => dispatch(voteRoom(id, rating)),
-        filterRooms: (happinessScore: number) => dispatch(filterRoomList(happinessScore)),
     };
 }
 const RoomListPage = connect(
