@@ -12,6 +12,7 @@ import { AssetListItem } from '../ui';
 import { connect } from 'react-redux';
 import TransitionView from '../animations/TransitionView';
 import RenderSeparatorTransition from '../animations/RenderSeparatorTransition';
+import { AssetFilter } from '../ui/asset/AssetFilter';
 
 type Props = {
   assets: Asset[];
@@ -20,9 +21,16 @@ type Props = {
 }
 
 export const AllAssetsList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
+  const [filteredAssets, setFilteredAssets] = React.useState();
+
   const navigation = useNavigation();
   const assets: Asset[] = ASSETS;
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
+  const filterAssets = (filterVal: string) => {
+    console.log(filterVal);
+    const filteredList = props.assets.filter(asset => asset.name.toLocaleLowerCase().includes(filterVal.toLocaleLowerCase()));
+    setFilteredAssets(filteredList);
+  };
 
   useEffect(() => {
     props.getAssetList();
@@ -39,7 +47,8 @@ const RenderSeparator = () => <View style={styles.separator}></View>;
 
     return (
       <TransitionView style={styles.assetContainer}>
-        <FlatList data={props.assets} renderItem={renderItem}  ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
+        <AssetFilter filterAssets={filterAssets}/>
+        <FlatList data={filteredAssets ? filteredAssets : props.assets} renderItem={renderItem}  ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
       </TransitionView>
     );
   }

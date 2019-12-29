@@ -15,7 +15,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducer from './src/reducks';
 import thunk from 'redux-thunk';
-import { NavigationConfig } from './src/animations/NavigationConfix';
+import { NavigationConfig } from './src/animations/NavigationConfig';
 
 export default function App() {
 
