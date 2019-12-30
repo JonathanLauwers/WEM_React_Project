@@ -64,7 +64,7 @@ AllAssetsList.navigationOptions = () => ({
   },
   headerBackTitleStyle: {
     color: '#FFF'
-  }
+  },
 });
 const mapStateToProps = state => ({ assets: state.asset.list, loading: state.asset.isLoadingList });
 const mapDispatchToProps = dispatch => ({ getAssetList: () => dispatch(getAssetList()) });

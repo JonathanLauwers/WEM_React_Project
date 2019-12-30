@@ -8,20 +8,15 @@ type Props = {
 }
 
 export const AssetFilter: React.FunctionComponent<Props> = (props): JSX.Element => {  
-  const [filterValue, setFilterValue] = React.useState('');
   return (
     <View style={styles.container}>
         <TextInput
           key="filterValue"
           style={styles.input}
           keyboardType="default"
-          placeholder="Name"
-          value={filterValue}
-          onChangeText={text => setFilterValue(text)}
+          placeholder="Search name"
+          onChangeText={text => props.filterAssets(text)}
         />
-        <View style={styles.button}>
-          <Button title="Filter names" onPress={() => props.filterAssets(filterValue)}  />
-        </View>
     </View>
   );
 };
