@@ -4,11 +4,13 @@ import { styles } from './RoomFilter.styles';
 import { H2 } from '../TextHeaders';
 
 type Props = {
-  filterRooms: any
+  filterRooms: any,
+  clearFilteredRooms: any,
 }
 
-export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element => {  
-  const [happinessScore, setHappinessScore] = React.useState('');
+export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element => { 
+  const [filterValue, setFilterValue] = React.useState();
+ 
   return (
     <View style={styles.container}>
         <TextInput
@@ -16,12 +18,10 @@ export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element =
           style={styles.input}
           keyboardType="numeric"
           placeholder="0"
-          value={happinessScore}
-          onChangeText={text => setHappinessScore(text)}
+          value={filterValue}
+          onChangeText={text => {props.filterRooms(text), setFilterValue(text)}}
         />
-        <View style={styles.button}>
-          <Button title="Filter" onPress={() => props.filterRooms(happinessScore)}  />
-        </View>
+        <Button title="Clear" onPress={() => {props.clearFilteredRooms(), setFilterValue("")}}></Button>
     </View>
   );
 };

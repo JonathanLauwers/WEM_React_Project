@@ -33,7 +33,10 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
         const filteredList = props.rooms.filter(room => parseInt(room.happinessScore) <= parseInt(filterVal));
         setFilteredRooms(filteredList);  
     };
-
+    const clearFilteredRooms = () => {
+        const FilteredRooms = setFilteredRooms(undefined);
+    };
+    console.log("FILTERROOMS", filteredRooms)
 
     useEffect(() => {
         props.getRoomList();
@@ -51,7 +54,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     return (
         <View>   
             <TransitionView>
-            <RoomFilter filterRooms={filterRooms}/>
+            <RoomFilter filterRooms={filterRooms} clearFilteredRooms={clearFilteredRooms}/>
             {props.isLoading || props.isVoting ?
             <View style={styles.loader}>
                 <ActivityIndicator size="large" color={Colors.darkBlue}/> 
