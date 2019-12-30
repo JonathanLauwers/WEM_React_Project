@@ -12,6 +12,7 @@ type RoomPreview = {
   name: string,
   happinessScore: number,
   index: number,
+  URI: string,
   navigateRoom: (room: Room) => void,
   navigateMaps: (room: Room) => void,
   voteRoom: (id: string, rating: number) => void,
@@ -19,12 +20,12 @@ type RoomPreview = {
 
 export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.Element => {
   const [voted, setVoted] = React.useState(false);
-
+  console.log("URI", room.URI)
   return (
     <ListItemTransition style={styles.container} index={room.index}>
       <View style={styles.leftContainer}>
         <View style={styles.imageContainer}>
-          <CircledImage size={36} uri="https://firebasestorage.googleapis.com/v0/b/fiesjev2.appspot.com/o/uploads%2F1560264396955.jpg?alt=media&token=256936ae-c394-411e-945f-a61f5301bd2d" />
+          <CircledImage size={36} uri={room.URI?.path ? room.URI.path : ""}/>
         </View>
 
         <TouchableOpacity onPress={() => room.navigateRoom(room)}>

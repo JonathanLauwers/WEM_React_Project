@@ -10,6 +10,7 @@ import { Room } from '../data';
 import { getRoomList, voteRoom, filterRoomList} from '../reducks/room';
 import { H2 } from '../ui/TextHeaders';
 import { connect } from 'react-redux';
+import { URIs } from '../images/URIs';
 
 import { TransitionView } from '../animations/TransitionView'
 
@@ -29,14 +30,15 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
+
     const filterRooms = (filterVal: number) => {
         const filteredList = props.rooms.filter(room => parseInt(room.happinessScore) <= parseInt(filterVal));
         setFilteredRooms(filteredList);  
     };
+
     const clearFilteredRooms = () => {
         const FilteredRooms = setFilteredRooms(undefined);
     };
-    console.log("FILTERROOMS", filteredRooms)
 
     useEffect(() => {
         props.getRoomList();
@@ -45,7 +47,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     const renderItem = ({ item, index }: { item: Room }): JSX.Element => {
         return (
             <View style={styles.roomContainer}>
-                <RoomListItem {...item} index={index} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteRoom={voteRoom}/>
+                <RoomListItem {...item} index={index} URI={URIs[index]} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteRoom={voteRoom}/>
             </View>
         );
     };

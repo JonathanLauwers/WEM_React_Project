@@ -18,7 +18,7 @@ export const CircledImage = (image: CircledImage): JSX.Element => {
     <Image
           style={[imageStyle, image.style]}
           source={{
-            uri: image.uri || "https://static.productionready.io/images/smiley-cyrus.jpg"
+            uri: image.uri || "https://firebasestorage.googleapis.com/v0/b/fiesjev2.appspot.com/o/uploads%2F1560264396955.jpg?alt=media&token=256936ae-c394-411e-945f-a61f5301bd2d"
           }}
         />
   );

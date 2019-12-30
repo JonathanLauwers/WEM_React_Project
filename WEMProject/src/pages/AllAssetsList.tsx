@@ -27,7 +27,6 @@ export const AllAssetsList: React.FunctionComponent & { navigationOptions?: Navi
   const assets: Asset[] = ASSETS;
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
   const filterAssets = (filterVal: string) => {
-    console.log(filterVal);
     const filteredList = props.assets.filter(asset => asset.name.toLocaleLowerCase().includes(filterVal.toLocaleLowerCase()));
     setFilteredAssets(filteredList);
   };
