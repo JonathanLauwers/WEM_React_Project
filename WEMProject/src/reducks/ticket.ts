@@ -196,6 +196,7 @@ export const createTicket = (ticket: TicketData) => {
       const body = await response.json();
       if (!response.ok) throw new Error(body.errors);
       dispatch(createTicketSuccess(body));
+      dispatch(getTicketList(ticket.assetName));
     } catch (error) {
       dispatch(createTicketFail());
     }

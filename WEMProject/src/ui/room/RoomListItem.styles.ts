@@ -6,5 +6,5 @@ export const styles = StyleSheet.create({
   imageContainer: { margin: 8, alignContent: 'center' },
   header: { flexDirection: 'column', justifyContent: 'flex-start', alignContent: 'center' },
   buttons: { flexDirection: 'row', alignItems: 'center' },
-  button: { marginRight: 20 }
+  button: { marginRight: 8 }
 });

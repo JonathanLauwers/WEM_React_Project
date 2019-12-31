@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Button, Text, ActivityIndicator} from 'react-native';
+import { View, TextInput, Text, ActivityIndicator} from 'react-native';
 import { useNavigation } from '../hooks';
 import { NavigationStackOptions } from 'react-navigation-stack';
 import { Colors } from '../styles/_colors';
@@ -9,6 +9,7 @@ import { H2, H1 } from '../ui/TextHeaders';
 import { connect } from 'react-redux';
 import { createTicket } from '../reducks/ticket';
 import { createNotification } from '../utils/NotificationService'
+import { Button, Icon } from 'react-native-elements';
 
 type Props = {
   asset: Asset,
@@ -56,7 +57,7 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
             onChangeText={text => setDescription(text)}
             editable={!props.isLoading}
           /> 
-          <Button title="Submit" color={Colors.primary} onPress={() => {createTicket(), notification()}}></Button>
+          <Button type="clear" title="Create" onPress={() => {createTicket(), notification()}} /> 
         </View>
         : 
         <View style={styles.loader}>
