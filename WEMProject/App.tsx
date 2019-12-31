@@ -69,12 +69,17 @@ export default function App() {
   const MainTabs = createBottomTabNavigator({
     Rooms: RoomsStack, 
     Assets: AssetsStack, 
-  }, {
+  }, 
+  {
     tabBarOptions: {
       activeTintColor: '#57a6eb',
       inactiveTintColor: '#BBB',
+      labelStyle: {
+        fontSize: 16,
+      },
     },
-  },{ transitionConfig: BottomNavConfig},
+  },
+  { transitionConfig: BottomNavConfig},
   );
 
   const store = createStore(reducer, applyMiddleware(thunk));
