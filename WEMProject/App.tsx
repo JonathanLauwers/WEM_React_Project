@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import  RoomListPage  from './src/pages/RoomList';
 import  AssetListPage from './src/pages/AssetList';
 import  TicketListPage from './src/pages/TicketList';
@@ -16,10 +17,11 @@ import { createStore, applyMiddleware } from 'redux';
 import reducer from './src/reducks';
 import thunk from 'redux-thunk';
 import { NavigationConfig } from './src/animations/NavigationConfig';
+import { BottomNavConfig } from './src/animations/BottomNavConfig';
 
 export default function App() {
 
-  const Stack = createStackNavigator({
+  const RoomsStack = createStackNavigator({
     Home: {
       screen: RoomListPage
     },
@@ -46,9 +48,38 @@ export default function App() {
     },
   }, { transitionConfig: NavigationConfig });
 
+  const AssetsStack = createStackNavigator({
+    AllAssetsList: {
+      screen: AllAssetsListPage
+    },
+    Ticket: {
+      screen: TicketListPage
+    },
+    Camera: {
+      screen: CameraPage
+    },
+    TicketDetail: {
+      screen: TicketDetail
+    },
+    CreateTicket: {
+      screen: CreateTicketPage
+    },
+  }, { transitionConfig: NavigationConfig });
+
+  const MainTabs = createBottomTabNavigator({
+    Rooms: RoomsStack, 
+    Assets: AssetsStack, 
+  }, {
+    tabBarOptions: {
+      activeTintColor: '#57a6eb',
+      inactiveTintColor: '#BBB',
+    },
+  },{ transitionConfig: BottomNavConfig},
+  );
+
   const store = createStore(reducer, applyMiddleware(thunk));
 
-  const AppContainer = createAppContainer(Stack);
+  const AppContainer = createAppContainer(MainTabs);
 
   return (
     <Provider store={store} style={styles.container}>

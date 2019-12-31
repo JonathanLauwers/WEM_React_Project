@@ -66,11 +66,6 @@ AssetList.navigationOptions = ({navigation}) => ({
   headerBackTitleStyle: {
     color: '#FFF'
   },
-  headerRight: (
-    <TouchableWithoutFeedback onPress={() => navigation.navigate('AllAssetsList')}> 
-        <Text style={styles.headerRight}>View all assets</Text>
-    </TouchableWithoutFeedback>
-  )
 });
 
 const mapStateToProps = state => ({ assets: state.asset.listById, isLoading: state.asset.isLoadingListById });

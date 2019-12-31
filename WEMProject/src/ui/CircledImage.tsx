@@ -17,7 +17,7 @@ export const CircledImage = (image: CircledImage): JSX.Element => {
 
   return (
     <Image
-          style={ image.base64 ? ({width: 50, height: 50, borderRadius: 25}): [imageStyle, image.style]}
+          style={ image.base64 ? ({width: imageStyle.width, height: imageStyle.height, borderRadius: imageStyle.borderRadius}): [imageStyle, image.style]}
           source={
             image.base64 && image.base64 !== "null" ? {uri: `data:image/gif;base64,${image.base64.replace(/\s/g, "+")}`} 
             : {
