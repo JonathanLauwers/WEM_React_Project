@@ -20,7 +20,7 @@ type RoomPreview = {
 
 export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.Element => {
   const [voted, setVoted] = React.useState(false);
-  console.log("URI", room.URI)
+
   return (
     <ListItemTransition style={styles.container} index={room.index}>
       <View style={styles.leftContainer}>

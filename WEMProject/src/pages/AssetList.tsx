@@ -22,7 +22,7 @@ export const AssetList: React.FunctionComponent & { navigationOptions?: Navigati
   const navigation = useNavigation();
   const { room } = navigation.state.params;
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
-  const navigateCamera = () => navigation.navigate('Camera');
+  const navigateCamera = (assetId: string) => navigation.navigate('Camera', { assetId: assetId });
 
   useEffect(() => {
     props.getAssetListById(room.id);

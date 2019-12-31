@@ -1,15 +1,25 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
+import { uploadPicture } from '../reducks/camera';
+import { connect } from 'react-redux';
+import { NavigationStackOptions } from 'react-navigation-stack';
+import { useNavigation } from '../hooks';
 
-export const Camera: React.FunctionComponent = (): JSX.Element => {
+type Props = {
+  isUploading: boolean;
+  uploadPicture: any;
+}
+
+export const Camera: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
+  const navigation = useNavigation();
+  const { assetId } = navigation.state.params;
 
   takePicture = async() => {
     if (this.camera) {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
-      console.log(data);
-      console.log(data.uri);
+      props.uploadPicture(assetId, data.base64);
     }
   };
 
@@ -69,4 +79,10 @@ const styles = StyleSheet.create({
       margin: 20,
     },
   });
-export default Camera;
+  const mapStateToProps = state => ({ isUploading: state.isUploading });
+  const mapDispatchToProps = dispatch => ({ uploadPicture: (assetId: string, base64: string) => dispatch(uploadPicture(assetId, base64)) });
+  const CameraPage = connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Camera);
+  export default CameraPage;
