@@ -25,6 +25,7 @@ type Props = {
 
 const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
     const [filteredRooms, setFilteredRooms] = React.useState();
+    const [sort, setSort] = React.useState(false);
 
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
@@ -36,9 +37,8 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
         setFilteredRooms(filteredList);  
     };
 
-    const clearFilteredRooms = () => {
-        const FilteredRooms = setFilteredRooms(undefined);
-    };
+    const clearFilteredRooms = () => {const FilteredRooms = setFilteredRooms(undefined)};
+    const switchVal = () => {setSort(!sort)};
 
     useEffect(() => {
         props.getRoomList();
@@ -56,7 +56,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     return (
         <View>   
             <TransitionView>
-            <RoomFilter filterRooms={filterRooms} clearFilteredRooms={clearFilteredRooms}/>
+            <RoomFilter filterRooms={filterRooms} clearFilteredRooms={clearFilteredRooms} switchVal={switchVal} sort={sort}/>
             {props.isLoading || props.isVoting ?
             <View style={styles.loader}>
                 <ActivityIndicator size="large" color={Colors.darkBlue}/> 
