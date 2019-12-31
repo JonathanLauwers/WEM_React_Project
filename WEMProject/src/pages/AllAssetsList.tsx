@@ -33,7 +33,7 @@ export const AllAssetsList: React.FunctionComponent & { navigationOptions?: Navi
 
   useEffect(() => {
     props.getAssetList();
-  }) 
+  },[]) 
 
   const renderItem = ({ item, index }: { item: Asset }): JSX.Element => {
     return (

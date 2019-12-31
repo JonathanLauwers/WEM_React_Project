@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Button, ColorPropType } from 'react-native';
+import { View, Text, TouchableOpacity, ColorPropType } from 'react-native';
 import { styles } from './RoomListItem.styles';
 import { H1 } from '../TextHeaders';
 import { Room } from '../../data/room/room';
 import { CircledImage } from '../CircledImage';
 import { voteRoom } from '../../reducks/room';
 import { ListItemTransition } from '../../animations/ListItemTransition'
+import { Button, Icon } from 'react-native-elements';
+import { Colors } from '../../styles/_colors';
 
 type RoomPreview = {
   id: string,
@@ -40,14 +42,32 @@ export const RoomListItem: React.FunctionComponent<RoomPreview> = (room): JSX.El
 
       <View style={styles.buttons}>
         <View style={styles.button}>
-          <Button title="Maps" onPress={() => room.navigateMaps(room)} />
-        </View>
+            <Button type="clear" title="" icon={
+              <Icon
+                name="navigation"
+                size={25}
+                color={Colors.primary}
+            /> }
+              onPress={() => room.navigateMaps(room)} /> 
+          </View>
         <View style={styles.button}>
-          <Button color="green" title="+1" disabled={voted} onPress={() => {room.voteRoom(room.id, 1), setVoted(true)}} /> 
-        </View>
-        <View style={styles.button}>
-          <Button color="red" title="-1" disabled={voted} onPress={() => {room.voteRoom(room.id, -1), setVoted(true)}} />
-        </View>
+            <Button type="clear" title="" icon={
+              <Icon
+                name="thumb-up"
+                size={25}
+                color={Colors.green}
+            /> }
+              onPress={() => {room.voteRoom(room.id, 1), setVoted(true)}} /> 
+          </View>
+          <View style={styles.button}>
+            <Button type="clear" title="" icon={
+              <Icon
+                name="thumb-down"
+                size={25}
+                color={Colors.red}
+            /> }
+              onPress={() => {room.voteRoom(room.id, -1), setVoted(true)}} /> 
+          </View>
       </View>
     </ListItemTransition>
   );

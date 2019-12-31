@@ -5,7 +5,8 @@ import { Subtitle, H1 } from '../TextHeaders';
 import { Asset } from '../../data/asset/asset';
 import ListItemTransition from '../../animations/ListItemTransition';
 import { CircledImage } from '../CircledImage';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
+import { Colors } from '../../styles/_colors';
 
 type AssetPreview = {
   asset: Asset;
@@ -29,7 +30,13 @@ export const AssetListItem: React.FunctionComponent<AssetPreview> = (asset): JSX
         </TouchableOpacity>
         <View style={styles.buttons}>
           <View style={styles.button}>
-            <Button type="outline" title="Change picture" onPress={() => {asset.navigateCamera(asset.asset.id)}} /> 
+            <Button type="outline" title="" icon={
+              <Icon
+                name="add-a-photo"
+                size={25}
+                color={Colors.primary}
+            /> }
+              onPress={() => {asset.navigateCamera(asset.asset.id)}} /> 
           </View>
         </View>
 
