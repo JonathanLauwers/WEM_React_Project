@@ -8,19 +8,24 @@ type Props = {
   filterRooms: any,
   clearFilteredRooms: any,
   setFilteredRooms: any,
-  switchVal: any,
-  sort: boolean,
+  sortList: any,
 }
 
 export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element => { 
   const [filterValue, setFilterValue] = React.useState();
- 
+  const [sort, setSort] = React.useState(false);
+
+  const checkBoxPress = () => {
+    setSort(!sort);
+    props.sortList(sort);
+  }
+
   return (
     <View style={styles.container}>
       <CheckBox
         title='Sort'
-        checked={props.sort}
-        onPress={() => props.switchVal()}
+        onPress={() => {checkBoxPress()}}
+        checked={sort}
       />
       <View style={styles.filterBlock}>
         <TextInput

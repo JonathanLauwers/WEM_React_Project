@@ -14,7 +14,6 @@ import { URIs } from '../images/URIs';
 
 import { TransitionView } from '../animations/TransitionView'
 
-
 type Props = {
     rooms: Room[];
     isLoading: boolean;
@@ -25,29 +24,43 @@ type Props = {
 
 const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
     const [filteredRooms, setFilteredRooms] = React.useState();
-    const [sort, setSort] = React.useState(false);
 
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
-
     const filterRooms = (filterVal: number) => {
         const filteredList = props.rooms.filter(room => parseInt(room.happinessScore) <= parseInt(filterVal));
         setFilteredRooms(filteredList);  
     };
 
     const clearFilteredRooms = () => {const FilteredRooms = setFilteredRooms(undefined)};
-    const switchVal = () => {setSort(!sort)};
+    
+    const sortList = (sort: boolean) => {
+        if(sort){
+            filteredRooms ? filterRoomListByName(filteredRooms) : filterRoomListByName(props.rooms);
+        } else {
+            clearFilteredRooms();
+        }
+    }
+
+    const filterRoomListByName = (roomList: Room[]) => {
+        setFilteredRooms(roomList.sort((a, b) => {
+            if(a.name < b.name) { return -1; }
+            if(a.name > b.name) { return 1; }
+            return 0;
+          }))
+    }
 
     useEffect(() => {
         props.getRoomList();
+        sortList();
      }, []);
 
     const renderItem = ({ item, index }: { item: Room }): JSX.Element => {
         return (
             <View style={styles.roomContainer}>
-                <RoomListItem {...item} index={index} URI={URIs[index]} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteRoom={voteRoom}/>
+                <RoomListItem {...item} index={index} URI={URIs[parseInt(item.id - 1)]} navigateRoom={navigateRoom} navigateMaps={navigateMaps} voteRoom={voteRoom}/>
             </View>
         );
     };
@@ -56,7 +69,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     return (
         <View>   
             <TransitionView>
-            <RoomFilter filterRooms={filterRooms} clearFilteredRooms={clearFilteredRooms} switchVal={switchVal} sort={sort}/>
+            <RoomFilter filterRooms={filterRooms} clearFilteredRooms={clearFilteredRooms} sortList={sortList}/>
             {props.isLoading || props.isVoting ?
             <View style={styles.loader}>
                 <ActivityIndicator size="large" color={Colors.darkBlue}/> 
