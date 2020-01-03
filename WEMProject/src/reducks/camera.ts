@@ -1,5 +1,6 @@
 import { Reducer } from "react";
 import { Room } from "../data";
+import { getAssetList, getAssetListById } from "./asset";
 
 
 const UPLOAD_PICTURE = 'WEMProject/camera/UPLOAD_PICTURE';
@@ -61,7 +62,8 @@ export const uploadPicture = (id: string, base64: string) => {
       });
       if (!response.ok) throw new Error();
       dispatch(setPictureUploadingSuccess());
-      //dispatch(getRoomList());
+      dispatch(getAssetList());
+      dispatch(getAssetListById(id));
     } catch (error) {
       dispatch(setPictureUploadingFail())
     } 

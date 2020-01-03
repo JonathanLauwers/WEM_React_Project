@@ -21,24 +21,33 @@ type Props = {
 }
 
 export const AllAssetsList: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
-  const [filteredAssets, setFilteredAssets] = React.useState();
+  const [filter, setFilter] = React.useState();
 
   const navigation = useNavigation();
   const assets: Asset[] = ASSETS;
   const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
+  const navigateCamera = (assetId: string) => navigation.navigate('Camera', { assetId: assetId });
   const filterAssets = (filterVal: string) => {
-    const filteredList = props.assets.filter(asset => asset.name.toLocaleLowerCase().includes(filterVal.toLocaleLowerCase()));
-    setFilteredAssets(filteredList);
+    setFilter(filterVal);
   };
 
   useEffect(() => {
     props.getAssetList();
   },[]) 
 
+  const getSortedFilteredList = (filter: string) => {
+    let returnData = props.assets;
+    if(filter !== undefined) {
+      returnData = returnData.filter(asset => asset.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()));
+    }
+
+    return returnData;
+  }
+
   const renderItem = ({ item, index }: { item: Asset }): JSX.Element => {
     return (
         <View style={styles.assetContainer}>
-            <AssetListItem asset={item} index={index} navigateAsset={navigateTicket}/>
+            <AssetListItem asset={item} index={index} navigateAsset={navigateTicket} navigateCamera={navigateCamera}/>
         </View>
     );
 };
@@ -47,7 +56,7 @@ const RenderSeparator = () => <View style={styles.separator}></View>;
     return (
       <TransitionView style={styles.assetContainer}>
         <AssetFilter filterAssets={filterAssets}/>
-        <FlatList data={filteredAssets ? filteredAssets : props.assets} renderItem={renderItem}  ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
+        <FlatList data={getSortedFilteredList(filter)} renderItem={renderItem}  ItemSeparatorComponent={RenderSeparator} keyExtractor={asset => asset.id} />
       </TransitionView>
     );
   }

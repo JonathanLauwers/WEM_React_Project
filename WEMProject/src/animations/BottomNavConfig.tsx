@@ -8,8 +8,8 @@ export const BottomNavConfig = () => {
         const thisSceneIndex = scene.index;
 
         const opacity = position.interpolate({
-          inputRange: [thisSceneIndex - 1, thisSceneIndex],
-          outputRange: [0, 0]
+          inputRange: [thisSceneIndex - 1, thisSceneIndex - 0.5, thisSceneIndex],
+          outputRange: [0, 1, 1]
         })
 
         return { transform: [{ translateY }] };

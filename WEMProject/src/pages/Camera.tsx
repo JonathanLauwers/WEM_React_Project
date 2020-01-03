@@ -20,6 +20,7 @@ export const Camera: React.FunctionComponent<Props> & { navigationOptions?: Navi
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options);
       props.uploadPicture(assetId, data.base64);
+      navigation.goBack(null);
     }
   };
 

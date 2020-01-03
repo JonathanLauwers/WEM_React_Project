@@ -57,7 +57,7 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
             onChangeText={text => setDescription(text)}
             editable={!props.isLoading}
           /> 
-          <Button type="clear" title="Create" onPress={() => {createTicket(), notification(), navigateTicket(asset.asset)}} /> 
+          <Button type="clear" title="Create" onPress={() => {createTicket(), notification(), navigation.goBack(null)}} /> 
         </View>
         : 
         <View style={styles.loader}>
