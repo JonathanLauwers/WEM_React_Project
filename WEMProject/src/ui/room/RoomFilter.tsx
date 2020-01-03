@@ -6,18 +6,16 @@ import { CheckBox } from 'react-native-elements'
 
 type Props = {
   filterRooms: any,
+  sortRooms: any,
+  sort: boolean,
   clearFilteredRooms: any,
-  setFilteredRooms: any,
-  sortList: any,
 }
 
 export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element => { 
   const [filterValue, setFilterValue] = React.useState();
-  const [sort, setSort] = React.useState(false);
 
   const checkBoxPress = () => {
-    setSort(!sort);
-    props.sortList(sort);
+    props.sortRooms(!props.sort);
   }
 
   return (
@@ -25,7 +23,7 @@ export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element =
       <CheckBox
         title='Sort'
         onPress={() => {checkBoxPress()}}
-        checked={sort}
+        checked={props.sort}
       />
       <View style={styles.filterBlock}>
         <TextInput
@@ -36,7 +34,7 @@ export const RoomFilter: React.FunctionComponent<Props> = (props): JSX.Element =
           value={filterValue}
           onChangeText={text => {props.filterRooms(text), setFilterValue(text)}}
         />
-        <Button title="Clear" onPress={() => {props.clearFilteredRooms(), setFilterValue("")}}></Button>
+        <Button title="Clear" onPress={() => {setFilterValue(""), props.clearFilteredRooms()}}></Button>
       </View>
     </View>
   );

@@ -11,6 +11,7 @@ import { getRoomList, voteRoom, filterRoomList} from '../reducks/room';
 import { H2 } from '../ui/TextHeaders';
 import { connect } from 'react-redux';
 import { URIs } from '../images/URIs';
+import { filterRoomListById, filterRoomListByName } from '../utils/RoomFilterService'
 
 import { TransitionView } from '../animations/TransitionView'
 
@@ -23,38 +24,33 @@ type Props = {
 }
 
 const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
-    const [filteredRooms, setFilteredRooms] = React.useState();
+    const [filter, setFilter] = React.useState(0);
+    const [sort, setSort] = React.useState(false);
 
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
     const navigateMaps = (room: Room) => navigation.navigate('Maps', { room: room });
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
-    const filterRooms = (filterVal: number) => {
-        const filteredList = props.rooms.filter(room => parseInt(room.happinessScore) <= parseInt(filterVal));
-        setFilteredRooms(filteredList);  
-    };
 
-    const clearFilteredRooms = () => {const FilteredRooms = setFilteredRooms(undefined)};
+    const filterRooms = (filterVal: number) => {setFilter(filterVal);  };
+    const sortRooms = (sort: boolean) => {setSort(sort);  };
+    const clearFilteredRooms = () => {setFilter(0)};
     
-    const sortList = (sort: boolean) => {
-        if(sort){
-            filteredRooms ? filterRoomListByName(filteredRooms) : filterRoomListByName(props.rooms);
+    const getSortedFilteredList = (sorted: boolean, filter: number) => {
+        let returnData = props.rooms;
+        if(sorted) {
+            returnData = filterRoomListByName(returnData);
         } else {
-            clearFilteredRooms();
+            returnData = filterRoomListById(returnData);
         }
-    }
-
-    const filterRoomListByName = (roomList: Room[]) => {
-        setFilteredRooms(roomList.sort((a, b) => {
-            if(a.name < b.name) { return -1; }
-            if(a.name > b.name) { return 1; }
-            return 0;
-          }))
-    }
+        if(filter !== 0) {
+            returnData = props.rooms.filter(room => parseInt(room.happinessScore) <= parseInt(filter));
+        }
+        return returnData;
+    }  
 
     useEffect(() => {
         props.getRoomList();
-        sortList();
      }, []);
 
     const renderItem = ({ item, index }: { item: Room }): JSX.Element => {
@@ -69,7 +65,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     return (
         <View>   
             <TransitionView>
-            <RoomFilter filterRooms={filterRooms} clearFilteredRooms={clearFilteredRooms} sortList={sortList}/>
+            <RoomFilter filterRooms={filterRooms} sortRooms={sortRooms} sortRooms={sortRooms} sort={sort} clearFilteredRooms={clearFilteredRooms}/>
             {props.isLoading || props.isVoting ?
             <View style={styles.loader}>
                 <ActivityIndicator size="large" color={Colors.darkBlue}/> 
@@ -77,7 +73,7 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
             : 
             <View>
                 <FlatList 
-                    data={filteredRooms ? filteredRooms : props.rooms}
+                    data={getSortedFilteredList(sort, filter)}
                     renderItem={renderItem}
                     ItemSeparatorComponent={RenderSeparator} 
                     keyExtractor={room => room.id} 
