@@ -117,10 +117,8 @@ export const getRoomList = () => {
   return async (dispatch) => {
     dispatch(setRoomListLoading());
     try {
-      console.log("INSIDE OROMLIST");
       const response = await fetch(`http://127.0.0.1:8000/rooms`);
       if (!response.ok) throw new Error();
-      console.log("response", response);
       const { rooms } = await response.json();
       dispatch(getRoomListSuccess(rooms));
     } catch (error) {

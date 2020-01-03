@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, FlatList, ActivityIndicator } from 'react-native';
+import { View, FlatList, ActivityIndicator} from 'react-native';
 import { RoomListItem, RoomFilter } from '../ui';
 import { ROOMS } from '../../assets/rooms.js';
 import { styles } from './RoomList.styles';
@@ -12,7 +12,7 @@ import { H2 } from '../ui/TextHeaders';
 import { connect } from 'react-redux';
 import { URIs } from '../images/URIs';
 import { filterRoomListById, filterRoomListByName } from '../utils/RoomFilterService'
-
+import AsyncStorage from '@react-native-community/async-storage';
 import { TransitionView } from '../animations/TransitionView'
 
 type Props = {
@@ -25,7 +25,7 @@ type Props = {
 
 const RoomList: React.FunctionComponent<Props> & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
     const [filter, setFilter] = React.useState(0);
-    const [sort, setSort] = React.useState(false);
+    const [sort, setSort] = React.useState();
 
     const navigation = useNavigation();
     const navigateRoom = (room: Room) => navigation.navigate('Asset', { room: room });
@@ -33,7 +33,11 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
     const voteRoom = (id: string, rating: number) => props.postVote(id, rating);
 
     const filterRooms = (filterVal: number) => {setFilter(filterVal);  };
-    const sortRooms = (sort: boolean) => {setSort(sort);  };
+    const sortRooms = (sort: boolean) => {
+        setSort(sort); 
+        setFilterPreference(sort);
+    };
+
     const clearFilteredRooms = () => {setFilter(0)};
     
     const getSortedFilteredList = (sorted: boolean, filter: number) => {
@@ -49,8 +53,26 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
         return returnData;
     }  
 
+    const getFilterPreference = async() => {
+        try {
+            const value = await AsyncStorage.getItem('@SortPreference');
+            const booleanValue = (value == 'true');
+            setSort(booleanValue);
+        } catch (error) {
+            return error;
+        }
+    }
+    const setFilterPreference = async(sort) => {
+        try {
+            await AsyncStorage.setItem('@SortPreference', sort + "");
+        } catch (error) {
+            return error;
+        }
+    }
+
     useEffect(() => {
         props.getRoomList();
+        getFilterPreference();
      }, []);
 
     const renderItem = ({ item, index }: { item: Room }): JSX.Element => {

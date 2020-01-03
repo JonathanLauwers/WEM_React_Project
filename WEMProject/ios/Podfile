@@ -39,6 +39,8 @@ target 'WEMProject' do
   pod 'RNCPushNotificationIOS', :path => '../node_modules/@react-native-community/push-notification-ios'
   pod 'react-native-camera', path: '../node_modules/react-native-camera'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
 end
 
 post_install do |installer|
