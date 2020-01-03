@@ -14,6 +14,7 @@ import { URIs } from '../images/URIs';
 import { filterRoomListById, filterRoomListByName } from '../utils/RoomFilterService'
 import AsyncStorage from '@react-native-community/async-storage';
 import { TransitionView } from '../animations/TransitionView'
+import LottieView from 'lottie-react-native';
 
 type Props = {
     rooms: Room[];
@@ -91,6 +92,11 @@ const RoomList: React.FunctionComponent<Props> & { navigationOptions?: Navigatio
             {props.isLoading || props.isVoting ?
             <View style={styles.loader}>
                 <ActivityIndicator size="large" color={Colors.darkBlue}/> 
+                <LottieView
+                    source={require('../animations/13491-pop-new-year.json')}
+                    autoPlay
+                    loop
+                />
             </View>
             : 
             <View>
