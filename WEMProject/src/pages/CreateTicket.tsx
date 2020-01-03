@@ -26,6 +26,7 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
   const [description, setDescription] = React.useState('');
 
   const navigation = useNavigation();
+  const navigateTicket = (asset: Asset) => navigation.navigate('Ticket', { asset: asset });
   const { asset } = navigation.state.params;
 
   const createTicket = () => {
@@ -46,7 +47,6 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
       
         {!props.isLoading ? 
         <View style={styles.LabelFieldRow}>
-          
           <H2>Description</H2>
           <TextInput 
             key="description" 
@@ -57,7 +57,7 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
             onChangeText={text => setDescription(text)}
             editable={!props.isLoading}
           /> 
-          <Button type="clear" title="Create" onPress={() => {createTicket(), notification()}} /> 
+          <Button type="clear" title="Create" onPress={() => {createTicket(), notification(), navigateTicket(asset.asset)}} /> 
         </View>
         : 
         <View style={styles.loader}>
