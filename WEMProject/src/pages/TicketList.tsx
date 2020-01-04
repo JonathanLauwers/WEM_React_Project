@@ -10,6 +10,8 @@ import { Ticket } from '../data';
 import { getTicketList } from '../reducks/ticket';
 import { connect } from 'react-redux';
 import TransitionView from '../animations/TransitionView';
+import Dots from 'react-native-dots-pagination';
+import { ScrollView } from 'react-native-gesture-handler';
 
 type Props = {
   tickets: Ticket[];
@@ -34,6 +36,23 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
     );
   };
   const RenderSeparator = () => <View style={styles.separator}></View>;
+  const [active, setActive] = React.useState(0);
+  const length = props.tickets.length;
+  var items;
+
+  
+  const setPaginationVal = (items: any) => {
+    setActive(items.length);
+  };
+
+  handleScroll = (event: Object) => {
+    var value = Math.round((event.nativeEvent.contentSize.height - event.nativeEvent.layoutMeasurement.height) / length);
+    var activeVal = Math.floor(event.nativeEvent.contentOffset.y / value);
+
+    if(activeVal >= 0 && activeVal < length){
+      setActive(activeVal);
+    }  
+  }
 
   return (
     <TransitionView style={styles.ticketContainer}>
@@ -43,9 +62,20 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
               <ActivityIndicator size="large" color={Colors.darkBlue} />
             </View>
           ) : ( 
-          <View >
-            <FlatList data={props.tickets} renderItem={renderItem} ItemSeparatorComponent={RenderSeparator} keyExtractor={ticket => ticket.id} />
-          </View> )}
+          <ScrollView onScroll={this.handleScroll} scrollEventThrottle={4}>
+            <FlatList 
+              data={props.tickets} 
+              renderItem={renderItem} 
+              ItemSeparatorComponent={RenderSeparator} 
+              keyExtractor={ticket => ticket.id} 
+              viewabilityConfig={{
+                itemVisiblePercentThreshold: 50
+              }}/>
+          </ScrollView> )}
+          {length >= 8 ? <View style={styles.dots}>
+            <Dots length={length} active={active} />
+          </View> : null}
+          
     </TransitionView>
   );
 }

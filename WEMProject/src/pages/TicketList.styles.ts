@@ -4,5 +4,6 @@ export const styles = StyleSheet.create({
   separator: { marginHorizontal: 8, borderBottomWidth: 1, borderBottomColor: '#CCC' },
   ticketContainer: { margin: 8 },
   addSymbol: { fontSize: 36, color: '#FFF', marginRight: 12}, 
-  loader: { alignContent: 'center', marginTop: 50}
+  loader: { alignContent: 'center', marginTop: 50},
+  dots: { position: 'absolute', bottom: 15, alignSelf: 'center', margin: 0}
 });

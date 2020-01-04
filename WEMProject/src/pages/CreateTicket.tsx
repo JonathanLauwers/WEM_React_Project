@@ -42,11 +42,11 @@ export const CreateTicket: React.FunctionComponent<Props> & { navigationOptions?
   }
 
   return (
-    <View style={{ padding: 8 }}>
+    <View style={styles.container}>
       <H1>New ticket for asset {asset.asset.id}</H1>
       
         {!props.isLoading ? 
-        <View style={styles.LabelFieldRow}>
+        <View style={styles.body}>
           <H2>Description</H2>
           <TextInput 
             key="description" 

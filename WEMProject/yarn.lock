@@ -10755,6 +10755,13 @@ react-native-camera@^3.15.0:
   dependencies:
     prop-types "^15.6.2"
 
+react-native-dots-pagination@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/react-native-dots-pagination/-/react-native-dots-pagination-0.1.7.tgz#09ffa75e67edb34a108b3494c3cb8b3c49bd8565"
+  integrity sha512-R8m0UGTwqpndJcnvakNsAxeC0fsAB8HB1Oc4UfLmp0pMgpxpvzbUS85J0A9vAkrPDrbNttTODvApubSuDHnpZA==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-elements@^1.2.7:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-1.2.7.tgz#1eca2db715c41722aeb67aea62bd2a4621adb134"

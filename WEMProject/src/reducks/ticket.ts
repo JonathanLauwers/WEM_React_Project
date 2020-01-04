@@ -1,5 +1,6 @@
 import { Reducer } from "react";
 import { Ticket } from "../data";
+import { API } from "../utils/APISettings";
 
 const LOAD_TICKET_LIST = 'WEMProject/ticket/LOAD_TICKET_LIST';
 const LOAD_TICKET_LIST_SUCCESS = 'WEMProject/ticket/LOAD_TICKET_LIST_SUCCESS';
@@ -113,9 +114,9 @@ export const getTicketList = (assetName) => {
     dispatch(setTicketListLoading());
     try {
       if(assetName){
-        response = await fetch(`http://127.0.0.1:8000/ticketsByAssetName?assetname=${assetName}`);
+        response = await fetch(`${API}/ticketsByAssetName?assetname=${assetName}`);
       } else{
-        response = await fetch(`http://127.0.0.1:8000/tickets`);
+        response = await fetch(`${API}/tickets`);
       }
 
       if (!response.ok) throw new Error();
@@ -152,7 +153,7 @@ export const getTicket = (id: string) => {
   return async (dispatch) => {
     dispatch(setTicketDetailLoading());
     try {
-      const response = await fetch(`http://127.0.0.1:8000/tickets/${id}`);
+      const response = await fetch(`${API}/tickets/${id}`);
       if (!response.ok) throw new Error();
       const { ticket }: { ticket: Ticket } = await response.json();
       dispatch(getTicketSuccess(ticket));
@@ -187,7 +188,7 @@ export const createTicket = (ticket: TicketData) => {
   return async (dispatch, getState) => {
     dispatch(setCreateTicketLoading());
     try {
-      const response = await fetch(`http://127.0.0.1:8000/tickets/create?name=${ticket.assetName}&description=${ticket.description}`, {
+      const response = await fetch(`${API}/tickets/create?name=${ticket.assetName}&description=${ticket.description}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
