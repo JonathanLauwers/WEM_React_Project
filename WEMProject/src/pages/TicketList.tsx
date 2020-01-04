@@ -72,9 +72,11 @@ export const TicketList: React.FunctionComponent<Props> & { navigationOptions?: 
                 itemVisiblePercentThreshold: 50
               }}/>
           </ScrollView> )}
-          {length >= 8 ? <View style={styles.dots}>
-            <Dots length={length} active={active} />
-          </View> : null}
+          {length >= 8 ? 
+          <View style={styles.dots}>
+            <Dots length={length} active={active} activeColor={Colors.primary}/>
+          </View> 
+          : null}
           
     </TransitionView>
   );
