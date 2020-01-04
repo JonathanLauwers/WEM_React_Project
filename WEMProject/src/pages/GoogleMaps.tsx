@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { NavigationStackOptions } from 'react-navigation-stack';
 import { Colors } from '../styles/_colors';
+import { useNavigation } from '../hooks';
+import { Room } from '../data';
+import { connect } from 'react-redux';
+import TransitionView from '../animations/TransitionView';
+import {getCoordinates} from '../utils/CoordinatesService';
 
 import {
     View,
@@ -9,8 +14,38 @@ import {
 import { styles } from './GoogleMaps.styles';
 import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
 
-export default class GoogleMaps extends Component {
-    static navigationOptions = {
+type Props = {
+  room: Room;
+}
+
+
+export const GoogleMaps: React.FunctionComponent & { navigationOptions?: NavigationStackOptions } = (props): JSX.Element => {
+  const navigation = useNavigation();
+  const { room } = navigation.state.params;
+  let coordinates = getCoordinates(room.id);
+
+  return <MapView
+        provider={PROVIDER_GOOGLE}
+        style={styles.map}
+ 
+        region={{
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
+        latitudeDelta: coordinates.latitudeDelta,
+        longitudeDelta: coordinates.longitudeDelta,
+        
+}}>
+
+</MapView> 
+
+
+}
+
+
+export default class Maps extends Component {
+    
+  
+  static navigationOptions = {
         title: 'Maps',
         headerStyle: {
           backgroundColor: Colors.primary
@@ -23,28 +58,13 @@ export default class GoogleMaps extends Component {
         },
       };
 
-    state = {
-        coordinates: [
-            {name: '1', latitude: 37.8025259, longitude: -122.4351431}, 
-            {name: '2', latitude: 37.8025259, longitude: -122.4351431}, 
-        ]
-    }
+    
     
     render(){
         return (
             
             <View>
-                 <MapView
-                  provider={PROVIDER_GOOGLE}
-                  style={styles.map}
-                  region={{
-                  latitude: 50.937030,
-                  longitude: 5.348530,
-                  latitudeDelta: 0.09,
-                  longitudeDelta: 0.035,
-            }}>
-
-            </MapView> 
+                 <GoogleMaps></GoogleMaps>
             </View>
         )
     }
