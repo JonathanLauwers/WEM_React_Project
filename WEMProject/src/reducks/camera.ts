@@ -1,6 +1,7 @@
 import { Reducer } from "react";
 import { Room } from "../data";
 import { getAssetList, getAssetListById } from "./asset";
+import { API } from "../utils/APISettings";
 
 
 const UPLOAD_PICTURE = 'WEMProject/camera/UPLOAD_PICTURE';
@@ -54,7 +55,7 @@ export const uploadPicture = (id: string, base64: string) => {
   return async (dispatch, getState) => {
       dispatch(setPictureUploading());
     try {
-      const response = await fetch(`http://127.0.0.1:8000/assets/uploadImageById?id=${id}&image=${encodeURIComponent(base64)}`, {
+      const response = await fetch(`${API}/assets/uploadImageById?id=${id}&image=${encodeURIComponent(base64)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

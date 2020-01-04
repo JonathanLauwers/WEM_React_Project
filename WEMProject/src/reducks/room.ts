@@ -1,5 +1,6 @@
 import { Reducer } from "react";
 import { Room } from "../data";
+import { API } from "../utils/APISettings";
 
 const LOAD_ROOM_LIST = 'WEMProject/room/LOAD_ROOM_LIST';
 const LOAD_ROOM_LIST_SUCCESS = 'WEMProject/room/LOAD_ROOM_LIST_SUCCESS';
@@ -117,7 +118,7 @@ export const getRoomList = () => {
   return async (dispatch) => {
     dispatch(setRoomListLoading());
     try {
-      const response = await fetch(`http://127.0.0.1:8000/rooms`);
+      const response = await fetch(`${API}/rooms`);
       if (!response.ok) throw new Error();
       const { rooms } = await response.json();
       dispatch(getRoomListSuccess(rooms));
@@ -153,7 +154,7 @@ export const voteRoom = (id: string, rating: number) => {
   return async (dispatch, getState) => {
     dispatch(setRoomVoting());
     try {
-      const response = await fetch(`http://127.0.0.1:8000/rooms/giveReviewById?id=${id}&rating=${rating}`, {
+      const response = await fetch(`${API}/rooms/giveReviewById?id=${id}&rating=${rating}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -194,7 +195,7 @@ export const filterRoomList = (happinessScore) => {
   return async (dispatch) => {
     dispatch(setRoomListLoading());
     try {
-      const response = await fetch(`http://127.0.0.1:8000/rooms/filter?maxhappinessscore=${happinessScore}`);
+      const response = await fetch(`${API}/rooms/filter?maxhappinessscore=${happinessScore}`);
       if (!response.ok) throw new Error();
       const { rooms } = await response.json();
       dispatch(getRoomListSuccess(rooms));

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const NavigationConfig = () => {
+export const SlideInTransition = () => {
     return {
       screenInterpolator: sceneProps => {
         const { position, scene, layout } = sceneProps;

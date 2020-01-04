@@ -1,5 +1,6 @@
 import { Reducer } from "react";
 import { Asset } from "../data";
+import { API } from "../utils/APISettings";
 
 const LOAD_ASSET_LIST = 'WEMProject/asset/LOAD_ASSET_LIST';
 const LOAD_ASSET_LIST_SUCCESS = 'WEMProject/asset/LOAD_ASSET_LIST_SUCCESS';
@@ -8,6 +9,8 @@ const LOAD_ASSET_LIST_FAIL = 'WEMProject/asset/LOAD_ASSET_LIST_FAIL';
 const LOAD_ASSET_LIST_BY_ID = 'WEMProject/asset/LOAD_ASSET_LIST_BY_ID';
 const LOAD_ASSET_LIST_BY_ID_SUCCESS = 'WEMProject/asset/LOAD_ASSET_LIST_BY_ID_SUCCESS';
 const LOAD_ASSET_LIST_BY_ID_FAIL = 'WEMProject/asset/LOAD_ASSET_LIST_BY_ID_FAIL';
+
+
 
 type GetListAction = {
   type: typeof LOAD_ASSET_LIST,
@@ -82,11 +85,10 @@ const reducer: Reducer<AssetState, ActionTypes> = (
 // Action Creators
 export const getAssetList = () => {
   var response;
-
   return async (dispatch) => {
     dispatch(setAssetListLoading());
     try {
-      response = await fetch(`http://127.0.0.1:8000/assets`);
+      response = await fetch(`${API}/assets`);
 
       if (!response.ok) throw new Error();
       const { assets }: { assets: Asset[] } = await response.json();
@@ -125,7 +127,7 @@ export const getAssetListById = (roomId) => {
   return async (dispatch) => {
     dispatch(setAssetListByIdLoading());
     try {
-      response = await fetch(`http://127.0.0.1:8000/assetsByRoomId?roomId=${roomId}`);
+      response = await fetch(`${API}/assetsByRoomId?roomId=${roomId}`);
       
       if (!response.ok) throw new Error();
       const { assets }: { assets: Asset[] } = await response.json();

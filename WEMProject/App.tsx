@@ -16,8 +16,8 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import reducer from './src/reducks';
 import thunk from 'redux-thunk';
-import { NavigationConfig } from './src/animations/NavigationConfig';
-import { BottomNavConfig } from './src/animations/BottomNavConfig';
+import { SlideInTransition } from './src/animations/SlideInTransition';
+import { ScaleAndOpacityTransition } from './src/animations/ScaleAndOpacityTransition';
 
 export default function App() {
 
@@ -46,7 +46,7 @@ export default function App() {
     AllAssetsList: {
       screen: AllAssetsListPage
     },
-  }, { transitionConfig: NavigationConfig });
+  }, { transitionConfig: SlideInTransition });
 
   const AssetsStack = createStackNavigator({
     AllAssetsList: {
@@ -64,7 +64,7 @@ export default function App() {
     CreateTicket: {
       screen: CreateTicketPage
     },
-  }, { transitionConfig: NavigationConfig });
+  }, { transitionConfig: ScaleAndOpacityTransition });
 
   const MainTabs = createBottomTabNavigator({
     Rooms: RoomsStack, 
@@ -76,11 +76,10 @@ export default function App() {
       inactiveTintColor: '#BBB',
       labelStyle: {
         fontSize: 16,
+        marginBottom: 10,
       },
     },
-  },
-  { transitionConfig: BottomNavConfig},
-  );
+  },{ transitionConfig: ScaleAndOpacityTransition});
 
   const store = createStore(reducer, applyMiddleware(thunk));
 
