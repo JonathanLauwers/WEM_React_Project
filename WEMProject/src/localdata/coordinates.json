@@ -9,21 +9,21 @@
 {
     "id": 2,
     "latitude": 11.919911,
-    "longitude": 5.326429,
+    "longitude": 25.326429,
     "latitudeDelta": 0.09,
     "longitudeDelta": 0.035
 },
 {
     "id": 3,
     "latitude": 22.919911,
-    "longitude": 5.326429,
+    "longitude": 15.326429,
     "latitudeDelta": 0.09,
     "longitudeDelta": 0.035
 },
 {
     "id": 2,
     "latitude": 33.919911,
-    "longitude": 5.326429,
+    "longitude": 35.326429,
     "latitudeDelta": 0.09,
     "longitudeDelta": 0.035
 }
