@@ -87,7 +87,7 @@ const setPictureUploadingSuccess = () => {
 
 const setPictureUploadingFail = () => {
   return {
-    type: VOTE_ROOM_FAIL,
+    type: UPLOAD_PICTURE_FAIL,
     payload: {}
   }
 }

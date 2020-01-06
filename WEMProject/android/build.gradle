@@ -11,6 +11,7 @@ buildscript {
         androidMapsUtilsVersion = "0.6.2"
         googlePlayServicesVersion = "17.0.0"
         firebaseVersion = "17.0.0" // default: "+"
+        googlePlayServicesVisionVersion = "+"
     }
     repositories {
         google()
